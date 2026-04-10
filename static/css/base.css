@@ -1,0 +1,342 @@
+/* ================================
+   RESET
+================================ */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ================================
+   VARIÁVEIS
+================================ */
+:root {
+    /* Cores */
+    --color-bg:          #f8f8f6;
+    --color-surface:     #ffffff;
+    --color-border:      #e5e5e0;
+    --color-text:        #1a1a1a;
+    --color-text-muted:  #6b6b6b;
+    --color-primary:     #c0392b;   /* vermelho sobrio — remetendo a carros */
+    --color-primary-hover: #a93226;
+    --color-accent:      #1a1a1a;
+
+    /* Tipografia */
+    --font-body:         'DM Sans', sans-serif;
+    --font-display:      'DM Serif Display', serif;
+    --font-size-xs:      0.75rem;   /* 12px */
+    --font-size-sm:      0.875rem;  /* 14px */
+    --font-size-base:    1rem;      /* 16px */
+    --font-size-md:      1.125rem;  /* 18px */
+    --font-size-lg:      1.5rem;    /* 24px */
+    --font-size-xl:      2rem;      /* 32px */
+    --font-size-2xl:     3rem;      /* 48px */
+
+    /* Espaçamentos */
+    --space-xs:   4px;
+    --space-sm:   8px;
+    --space-md:   16px;
+    --space-lg:   32px;
+    --space-xl:   64px;
+
+    /* Bordas */
+    --radius-sm:  4px;
+    --radius-md:  8px;
+    --radius-lg:  16px;
+    --radius-full: 999px;
+
+    /* Sombras */
+    --shadow-sm:  0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md:  0 4px 16px rgba(0,0,0,0.08);
+    --shadow-lg:  0 8px 32px rgba(0,0,0,0.12);
+
+    /* Layout */
+    --container-max: 1200px;
+    --container-padding: var(--space-lg);
+
+    /* Transições */
+    --transition: 0.2s ease;
+}
+
+/* ================================
+   BASE
+================================ */
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    padding: var(--space-lg) var(--container-padding);
+    max-width: var(--container-max);
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* ================================
+   TIPOGRAFIA
+================================ */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-text);
+}
+
+h1 { font-size: var(--font-size-2xl); }
+h2 { font-size: var(--font-size-xl); }
+h3 { font-size: var(--font-size-lg); }
+h4 { font-size: var(--font-size-md); }
+
+p {
+    color: var(--color-text-muted);
+    line-height: 1.7;
+}
+
+/* ================================
+   LINKS
+================================ */
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+a:hover {
+    color: var(--color-primary-hover);
+}
+
+/* ================================
+   BOTÕES
+================================ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-lg);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: all var(--transition);
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-hover);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+}
+
+.btn-outline:hover {
+    border-color: var(--color-text);
+    color: var(--color-text);
+}
+
+/* ================================
+   FORMULÁRIOS
+================================ */
+input, select, textarea {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    transition: border-color var(--transition);
+    outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--color-primary);
+}
+
+label {
+    display: block;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    margin-bottom: var(--space-xs);
+    color: var(--color-text);
+}
+
+/* ================================
+   CARDS
+================================ */
+.card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+/* ================================
+   UTILITÁRIOS
+================================ */
+.text-muted  { color: var(--color-text-muted); }
+.text-sm     { font-size: var(--font-size-sm); }
+.text-center { text-align: center; }
+
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
+
+.flex         { display: flex; }
+.flex-center  { display: flex; align-items: center; justify-content: center; }
+.gap-sm       { gap: var(--space-sm); }
+.gap-md       { gap: var(--space-md); }
+
+/* ================================
+   RESPONSIVO
+================================ */
+@media (max-width: 768px) {
+    :root {
+        --container-padding: var(--space-md);
+        --font-size-2xl: 2rem;
+        --font-size-xl:  1.5rem;
+    }
+
+    main {
+        padding: var(--space-md);
+    }
+}
+
+/* ================================
+   FORM CONTAINER (compartilhado)
+================================ */
+.form-container {
+    max-width: 560px;
+    margin: var(--space-lg) auto;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-sm);
+}
+
+.form-container h1 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.form-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.form-container table tr {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--space-md);
+}
+
+.form-container table th {
+    text-align: left;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: var(--space-xs);
+    padding: 0;
+}
+
+.form-container table td {
+    padding: 0;
+}
+
+.form-container table td input,
+.form-container table td select,
+.form-container table td textarea {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition: border-color var(--transition);
+    outline: none;
+}
+
+.form-container table td input:focus,
+.form-container table td select:focus,
+.form-container table td textarea:focus {
+    border-color: var(--color-primary);
+}
+
+/* ================================
+   FORM ACTIONS (compartilhado)
+================================ */
+.form-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-border);
+    flex-wrap: wrap;
+}
+
+/* ================================
+   BOTÕES EXTRAS (compartilhado)
+================================ */
+.btn-danger {
+    background-color: #c0392b;
+    color: white;
+    border: 1px solid #c0392b;
+}
+
+.btn-danger:hover {
+    background-color: #a93226;
+    border-color: #a93226;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+    color: var(--color-text);
+    border-color: var(--color-text);
+}

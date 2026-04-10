@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Registrar{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-header">
+        <h1>Criar Conta</h1>
+        <p>Preencha os dados abaixo para se registrar</p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="auth-field">
+            {{ user_form.username.errors }}
+            <label>Usuário</label>
+            {{ user_form.username }}
+        </div>
+
+        <div class="auth-field">
+            {{ user_form.password1.errors }}
+            <label>Senha</label>
+            {{ user_form.password1 }}
+        </div>
+
+        <div class="auth-field">
+            {{ user_form.password2.errors }}
+            <label>Confirmação de Senha</label>
+            {{ user_form.password2 }}
+        </div>
+
+        <div class="form-actions">
+            <input type="submit" value="Cadastrar" class="btn btn-primary">
+            <a href="{% url 'login' %}" class="btn btn-secondary">Já tenho conta</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

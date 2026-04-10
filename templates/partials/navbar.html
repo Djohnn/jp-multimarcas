@@ -1,0 +1,86 @@
+<nav>
+<!-- Logo -->
+    <div class="nav-logo">
+        <a href="{% url 'cars_list' %}">
+            {% load static %}
+            <img src="{% static 'img/logo.png' %}" 
+                alt="JP Multimarcas"
+                onerror="this.src='https://placehold.co/36x36?text=JP'">
+            JP Multimarcas
+        </a>
+    </div>
+
+    <!-- Centro -->
+    <ul class="nav-center">
+        <li><a href="{% url 'cars_list' %}">Carros</a></li>
+        <li><a href="{% url 'motorcycle_list' %}">Motos</a></li>
+    </ul>
+
+    <!-- Direita -->
+django<ul class="nav-right">
+    {% if user.is_authenticated %}
+        <li class="nav-dropdown">
+            <button class="nav-dropdown__btn" id="dropdown-cadastro-btn">
+                Cadastrar ▾
+            </button>
+            <ul class="nav-dropdown__menu" id="dropdown-cadastro-menu">
+                <li><a href="{% url 'new_car' %}">Cadastrar Carro</a></li>
+                <li><a href="{% url 'new_motorcycle' %}">Cadastrar Moto</a></li>
+                {% if user.is_staff %}
+                    <li><a href="{% url 'new_brand' %}">Cadastrar Marca de Carro</a></li>
+                    <li><a href="{% url 'new_motorcycle_brand' %}">Cadastrar Marca de Moto</a></li>
+                {% endif %}
+            </ul>
+        </li>
+        <li class="nav-dropdown">
+            <button class="nav-dropdown__btn" id="dropdown-btn">
+                {{ user.username }} ▾
+            </button>
+            <ul class="nav-dropdown__menu" id="dropdown-menu">
+                <li><a href="{% url 'logout' %}">Sair</a></li>
+            </ul>
+        </li>
+    {% else %}
+        <li><a href="{% url 'register' %}">Registrar</a></li>
+        <li><a href="{% url 'login' %}">Login</a></li>
+    {% endif %}
+</ul>
+
+
+{% comment %} <nav>
+<!-- Logo -->
+    <div class="nav-logo">
+        <a href="{% url 'cars_list' %}">
+            {% load static %}
+            <img src="{% static 'img/logo.png' %}" 
+                alt="JP Multimarcas"
+                onerror="this.src='https://placehold.co/36x36?text=JP'">
+            JP Multimarcas
+        </a>
+    </div>
+
+    <!-- Centro -->
+    <ul class="nav-center">
+        <li><a href="{% url 'cars_list' %}">Carros</a></li>
+        <li><a href="{% url 'motorcycle_list' %}">Motos</a></li>
+    </ul>
+
+    <!-- Direita -->
+    <ul class="nav-right">
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'new_car' %}">Cadastrar Carro</a></li>
+            <li><a href="{% url 'new_brand' %}">Cadastrar Marca</a></li>
+            <li class="nav-dropdown">
+                <button class="nav-dropdown__btn" id="dropdown-btn">
+                    {{ user.username }} ▾
+                </button>
+                <ul class="nav-dropdown__menu" id="dropdown-menu">
+                    <li><a href="{% url 'logout' %}">Sair</a></li>
+                </ul>
+            </li>
+        {% else %}
+            <li><a href="{% url 'register' %}">Registrar</a></li>
+            <li><a href="{% url 'login' %}">Login</a></li>
+        {% endif %}
+    </ul>
+</nav> {% endcomment %}

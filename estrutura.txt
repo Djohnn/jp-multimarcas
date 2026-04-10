@@ -1,0 +1,34 @@
+static/
+├── css/
+│   ├── base.css
+│   ├── components/
+│   │   ├── navbar.css
+│   │   └── footer.css
+│   ├── account/
+│   │   └── auth.css
+│   └── cars/
+│       ├── cars.css
+│       ├── car_detail.css
+│       ├── car_delete.css
+│       └── new_car.css
+├── img/
+│   └── logo.png
+└── js/
+    ├── navbar.js
+    └── new_car.js
+
+templates/
+├── base.html
+├── partials/
+│   ├── navbar.html
+│   └── footer.html
+├── account/
+│   ├── login.html
+│   └── register.html
+└── cars/
+    ├── cars.html
+    ├── car_detail.html
+    ├── car_update.html
+    ├── car_delete.html
+    ├── new_car.html
+    └── new_brand.html

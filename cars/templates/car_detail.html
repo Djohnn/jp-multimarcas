@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ object.brand }} {{ object.model }}{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/cars/car_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+
+    {% if object.photo %}
+        <img class="car-photo" src="{{ object.photo.url }}" alt="{{ object.model }} - {{ object.brand }}">
+    {% else %}
+        <img class="car-photo" src="https://placehold.co/720x380?text=Sem+Imagem" alt="Sem imagem">
+    {% endif %}
+
+    <div class="detail-card">
+        <h2>{{ object.brand }} {{ object.model }}</h2>
+
+        <div class="detail-info">
+            <div class="detail-info__item">
+                <span class="detail-info__label">Ano de Fabricação</span>
+                <span class="detail-info__value">{{ object.factory_year }}</span>
+            </div>
+            <div class="detail-info__item">
+                <span class="detail-info__label">Ano do Modelo</span>
+                <span class="detail-info__value">{{ object.model_year }}</span>
+            </div>
+            <div class="detail-info__item">
+                <span class="detail-info__label">Placa</span>
+                <span class="detail-info__value">{{ object.plate }}</span>
+            </div>
+            <div class="detail-info__item">
+                <span class="detail-info__label">Preço</span>
+                <span class="detail-info__value detail-info__value--price">R$ {{ object.value }}</span>
+            </div>
+            {% if object.bio %}
+            <div class="detail-bio">
+                <span class="detail-info__label">Descrição</span>
+                <p class="detail-bio__text">{{ object.bio }}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="detail-actions">
+            <a href="{% url 'car_update' pk=object.pk %}" class="btn btn-primary">Editar</a>
+            <a href="{% url 'car_delete' pk=object.pk %}" class="btn btn-danger">Deletar</a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

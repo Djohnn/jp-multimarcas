@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lista de Motos{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/motorcycle/motorcycle.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="search-bar">
+  <form method="GET" action="{% url 'motorcycle_list' %}">
+    <input type="text" name="search" placeholder="Buscar moto...">
+    <button type="submit" class="btn btn-primary">Buscar</button>
+  </form>
+</div>
+
+<div class="car-grid">
+  {% if motorcycles %}
+    {% for moto in motorcycles %}
+      <a href="{% url 'motorcycle_detail' moto.pk %}">
+        <div class="car-card">
+          {% if moto.photo %}
+            <img src="{{ moto.photo.url }}" alt="{{ moto.model }} - {{ moto.brand }}">
+          {% else %}
+            <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
+          {% endif %}
+          <h2>{{ moto.brand }} {{ moto.model }}</h2>
+          <p>{{ moto.factory_year }} — {{ moto.engine_cc }}cc — R$ {{ moto.value }}</p>
+        </div>
+      </a>
+    {% endfor %}
+  {% else %}
+    <p class="no-results">Nenhuma moto encontrada.</p>
+  {% endif %}
+</div>
+{% block scripts %}
+    <script src="{% static 'js/new_car.js' %}"></script>
+{% endblock %}
+{% endblock %}

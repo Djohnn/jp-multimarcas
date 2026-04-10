@@ -1,0 +1,79 @@
+/* ================================
+   AUTH CONTAINER
+================================ */
+.auth-container {
+    max-width: 420px;
+    margin: var(--space-xl) auto;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ================================
+   HEADER
+================================ */
+.auth-header {
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.auth-header h1 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-xs);
+}
+
+.auth-header p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+}
+
+/* ================================
+   CAMPOS
+================================ */
+.auth-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+}
+
+.auth-field label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.auth-field input {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition: border-color var(--transition);
+    outline: none;
+}
+
+.auth-field input:focus {
+    border-color: var(--color-primary);
+}
+
+/* ================================
+   ERROS
+================================ */
+.auth-field ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.auth-field ul li {
+    font-size: var(--font-size-xs);
+    color: var(--color-primary);
+    margin-bottom: var(--space-xs);
+}

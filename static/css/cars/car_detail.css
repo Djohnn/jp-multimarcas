@@ -1,0 +1,126 @@
+/* ================================
+   DETAIL CONTAINER
+================================ */
+.detail-container {
+    max-width: 720px;
+    margin: var(--space-lg) auto;
+}
+
+/* ================================
+   IMAGEM
+================================ */
+.detail-container .car-photo {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    display: block;
+    margin-bottom: var(--space-lg);
+}
+
+/* ================================
+   CARD DE INFO
+================================ */
+.detail-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-sm);
+}
+
+.detail-card h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* ================================
+   BIO / DESCRIÇÃO
+================================ */
+.detail-bio {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-lg);
+}
+
+.detail-bio__text {
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    line-height: 1.7;
+}
+
+/* ================================
+   LISTA DE INFO
+================================ */
+.detail-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.detail-info__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.detail-info__label {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.detail-info__value {
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+.detail-info__value--price {
+    font-family: var(--font-display);
+    font-size: var(--font-size-lg);
+    color: var(--color-primary);
+}
+
+/* ================================
+   BOTÕES
+================================ */
+.detail-actions {
+    display: flex;
+    gap: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-border);
+}
+
+.btn-danger {
+    background-color: transparent;
+    color: #c0392b;
+    border: 1px solid #c0392b;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ================================
+   RESPONSIVO
+================================ */
+@media (max-width: 768px) {
+    .detail-info {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-container .car-photo {
+        height: 220px;
+    }
+}

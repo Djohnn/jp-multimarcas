@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-header">
+        <h1>Entrar</h1>
+        <p>Acesse sua conta para continuar</p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="auth-field">
+            {{ login_form.username.errors }}
+            <label>Usuário</label>
+            {{ login_form.username }}
+        </div>
+
+        <div class="auth-field">
+            {{ login_form.password.errors }}
+            <label>Senha</label>
+            {{ login_form.password }}
+        </div>
+
+        <div class="form-actions">
+            <input type="submit" value="Entrar" class="btn btn-primary">
+            <a href="{% url 'register' %}" class="btn btn-secondary">Criar conta</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

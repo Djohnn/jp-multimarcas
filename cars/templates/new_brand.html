@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cadastrar Marca{% endblock %}
+
+
+{% block content %}
+<div class="form-container">
+    <h1>Cadastrar Marca</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <div class="form-actions">
+            <input type="submit" value="Cadastrar" class="btn btn-primary">
+            <a href="{% url 'new_car' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cadastrar Carro{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/cars/new_car.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Cadastrar Carro</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            <tr><th><label>Modelo:</label></th><td>{{ form.model }}</td></tr>
+            <tr>
+                <th><label>Marca:</label></th>
+                <td class="brand-field">
+                    {{ form.brand }}
+                    <button type="button" class="btn-add-brand" id="btn-add-brand" title="Nova Marca">+</button>
+                </td>
+            </tr>
+            <tr><th><label>Ano Fabricação:</label></th><td>{{ form.factory_year }}</td></tr>
+            <tr><th><label>Ano Modelo:</label></th><td>{{ form.model_year }}</td></tr>
+            <tr><th><label>Placa:</label></th><td>{{ form.plate }}</td></tr>
+            <tr><th><label>Valor:</label></th><td>{{ form.value }}</td></tr>
+            <tr><th><label>Foto:</label></th><td>{{ form.photo }}</td></tr>
+            <tr><th><label>Descrição:</label></th><td>{{ form.bio }}</td></tr>
+        </table>
+        <div class="form-actions">
+            <input type="submit" value="Cadastrar" class="btn btn-primary">
+        </div>
+    </form>
+</div>
+
+<!-- Overlay -->
+<div class="modal-overlay" id="modal-overlay"></div>
+
+<!-- Modal Marca -->
+<div class="modal" id="modal-brand">
+    <div class="modal__header">
+        <h2>Adicionar Marca</h2>
+        <button class="modal__close" id="btn-close-modal">&times;</button>
+    </div>
+    <form method="post" action="{% url 'new_brand' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            {{ brand_form.as_table }}
+        </table>
+        <div class="form-actions">
+            <input type="submit" value="Adicionar" class="btn btn-primary">
+        </div>
+    </form>
+</div>
+
+
+{% block scripts %}
+    <script src="{% static 'js/new_car.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

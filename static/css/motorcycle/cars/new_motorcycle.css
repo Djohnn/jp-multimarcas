@@ -1,0 +1,98 @@
+/* Brand field */
+.brand-field {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.brand-field select {
+    flex: 1;
+}
+
+.btn-add-brand {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    color: var(--color-primary);
+    font-weight: 600;
+    transition: all var(--transition);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.btn-add-brand:hover {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+}
+
+/* Modal */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 200;
+    backdrop-filter: blur(2px);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 300;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+    width: 100%;
+    max-width: 420px;
+    box-shadow: var(--shadow-lg);
+}
+
+.modal--open {
+    display: block;
+}
+
+.modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.modal__header h2 {
+    font-size: var(--font-size-md);
+}
+
+.modal__close {
+    background: none;
+    border: none;
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    color: var(--color-text-muted);
+    line-height: 1;
+    transition: color var(--transition);
+}
+
+.modal__close:hover {
+    color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+    .modal {
+        max-width: 90vw;
+        padding: var(--space-lg);
+    }
+}
