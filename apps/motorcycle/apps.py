@@ -2,7 +2,7 @@ from django.apps import AppConfig
 
 
 class MotorcycleConfig(AppConfig):
-    name = 'motorcycle'
+    name = 'apps.motorcycle'
 
     def ready(self):
-        import motorcycle.signals
+        import apps.motorcycle.signals

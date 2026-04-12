@@ -32,3 +32,11 @@ templates/
     ├── car_delete.html
     ├── new_car.html
     └── new_brand.html
+
+
+✔ apps/ separado → perfeito
+✔ templates/ global → correto
+✔ separação por domínio (cars, motorcycle, account) → top
+✔ partials/ → nível profissional
+✔ static/ organizado → limpo
+✔ media/ separado → correto

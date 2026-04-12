@@ -1,5 +1,5 @@
 from django.contrib import admin
-from motorcycle.models import Motorcycle, MotorcycleBrand
+from apps.motorcycle.models import Motorcycle, MotorcycleBrand
 
 class MotorcycleBrandAdmin(admin.ModelAdmin):
     list_display = ('name',)

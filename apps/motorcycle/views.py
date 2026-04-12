@@ -1,5 +1,5 @@
-from motorcycle.models import Motorcycle, MotorcycleBrand
-from motorcycle.forms import MotorcycleBrandModelForm, MotorcycleModelForm
+from apps.motorcycle.models import Motorcycle, MotorcycleBrand
+from apps.motorcycle.forms import MotorcycleBrandModelForm, MotorcycleModelForm
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -9,7 +9,7 @@ from django.urls import reverse
 
 class MotorcycleListView(ListView):
     model = Motorcycle
-    template_name = 'motorcycle.html'
+    template_name = 'motorcycle/motorcycle.html'
     context_object_name = 'motorcycles'
     paginate_by = 12
 
@@ -33,14 +33,14 @@ class MotorcycleListView(ListView):
     
 class MotorcycleDetailView(DetailView):
     model = Motorcycle
-    template_name = 'motorcycle_detail.html'
+    template_name = 'motorcycle/motorcycle_detail.html'
     
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')   
 class NewMotorcycleCreateView(CreateView):
     model = Motorcycle
     form_class = MotorcycleModelForm
-    template_name = "new_motorcycle.html"
+    template_name = "motorcycle/new_motorcycle.html"
     success_url = '/motorcycle/'
 
 
@@ -55,14 +55,14 @@ class NewMotorcycleCreateView(CreateView):
 class NewMotorcycleBrandCreateView(CreateView):
     model = MotorcycleBrand
     form_class = MotorcycleBrandModelForm
-    template_name = 'new_motorcycle_brand.html'
+    template_name = 'motorcycle/new_motorcycle_brand.html'
     success_url = '/motorcycle/new_motorcycle/'
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
 class MotorcycleUpdateView(UpdateView):
     model = Motorcycle
     form_class = MotorcycleModelForm
-    template_name = 'motorcycle_update.html'
+    template_name = 'motorcycle/motorcycle_update.html'
     
     def get_success_url(self):
         return reverse('motorcycle_detail', kwargs={'pk': self.object.pk})
@@ -71,5 +71,5 @@ class MotorcycleUpdateView(UpdateView):
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
 class MotorcycleDeleteView(DeleteView):
     model = Motorcycle
-    template_name = 'motorcycle_delete.html'
+    template_name = 'motorcycle/motorcycle_delete.html'
     success_url = '/motorcycle/'

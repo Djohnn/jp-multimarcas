@@ -1,7 +1,7 @@
 from django.db.models.signals import pre_save, post_save, post_delete
 from django.db.models import Sum
 from django.dispatch import receiver
-from motorcycle.models import Motorcycle, MotorcycleInventory
+from apps.motorcycle.models import Motorcycle, MotorcycleInventory
 from gemini_api.client import get_motorcycle_ai_bio
 
 

@@ -1,5 +1,5 @@
 from django import forms
-from cars.models import Brand, Car
+from apps.cars.models import Brand, Car
 
 #forma manua de escrever form ultilizando somento forms.form o que acaba sendo muito trabalhoso e muitas linhas de codigos.
 

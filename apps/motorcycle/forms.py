@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from motorcycle.models import Motorcycle, MotorcycleBrand
+from apps.motorcycle.models import Motorcycle, MotorcycleBrand
 
 
 class MotorcycleModelForm(ModelForm):

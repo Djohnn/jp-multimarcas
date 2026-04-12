@@ -1,5 +1,5 @@
 from django.urls import path
-from motorcycle.views import MotorcycleListView, NewMotorcycleCreateView, NewMotorcycleBrandCreateView, MotorcycleDetailView, MotorcycleUpdateView, MotorcycleDeleteView
+from apps.motorcycle.views import MotorcycleListView, NewMotorcycleCreateView, NewMotorcycleBrandCreateView, MotorcycleDetailView, MotorcycleUpdateView, MotorcycleDeleteView
 
 urlpatterns = [
     path('', MotorcycleListView.as_view(), name='motorcycle_list'),

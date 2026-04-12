@@ -9,8 +9,8 @@ from app.views import HomeView
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
-    path('cars/', include('cars.urls')),
-    path('account/', include('account.urls')),
-    path('motorcycle/', include('motorcycle.urls')),
+    path('cars/', include('apps.cars.urls')),
+    path('account/', include('apps.account.urls')),
+    path('motorcycle/', include('apps.motorcycle.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

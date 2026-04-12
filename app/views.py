@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView
 from django.db.models import Q
-from cars.models import Car, CarInventory, Brand
-from motorcycle.models import Motorcycle, MotorcycleInventory
+from apps.cars.models import Car, CarInventory, Brand
+from apps.motorcycle.models import Motorcycle, MotorcycleInventory
 
 
 class HomeView(TemplateView):

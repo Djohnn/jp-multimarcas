@@ -1,14 +1,14 @@
-from cars.models import Car, Brand
+from apps.cars.models import Car, Brand
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
-from cars.forms import CarModelForm, BrandModelForm
+from apps.cars.forms import CarModelForm, BrandModelForm
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
     
-class CarsListViews(ListView):
+class CarsListView(ListView):
     model = Car
-    template_name = 'cars.html'
+    template_name = 'cars/cars.html'
     context_object_name = 'cars'
     paginate_by = 12
 
@@ -33,14 +33,14 @@ class CarsListViews(ListView):
     
 class CarDetailView(DetailView):
     model = Car
-    template_name = 'car_detail.html'
+    template_name = 'cars/car_detail.html'
 
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
 class NewCarCreateView(CreateView):
     model = Car
     form_class = CarModelForm
-    template_name = 'new_car.html'
+    template_name = 'cars/new_car.html'
     success_url = '/cars/'
 
     def get_context_data(self, **kwargs):
@@ -53,15 +53,15 @@ class NewCarCreateView(CreateView):
 class NewBrandCreateView(CreateView):
     model = Brand
     form_class = BrandModelForm
-    template_name = 'new_brand.html'
-    success_url = '/cars/new_car/'
+    template_name = 'cars/new_brand.html'
+    success_url = '/new_car/'
 
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
 class CarUpdateView(UpdateView):
     model = Car
     form_class = CarModelForm
-    template_name = 'car_update.html'
+    template_name = 'cars/car_update.html'
     
     def get_success_url(self):
         return reverse('car_detail', kwargs={'pk': self.object.pk})
@@ -70,5 +70,5 @@ class CarUpdateView(UpdateView):
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
 class CarDeleteView(DeleteView):
     model = Car
-    template_name = 'car_delete.html'
+    template_name = 'cars/car_delete.html'
     success_url = '/cars/'

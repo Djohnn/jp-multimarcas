@@ -2,7 +2,7 @@ from django.apps import AppConfig
 
 
 class CarsConfig(AppConfig):
-    name = 'cars'
+    name = 'apps.cars'
 
     def ready(self):
-        import cars.signal
+        import apps.cars.signal

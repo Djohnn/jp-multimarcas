@@ -1,5 +1,5 @@
 from django.contrib import admin
-from cars.models import Brand, Car
+from apps.cars.models import Brand, Car
 
 
 
