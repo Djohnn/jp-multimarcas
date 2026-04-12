@@ -1,15 +1,16 @@
-from apps.motorcycle.models import Motorcycle, MotorcycleBrand
-from apps.motorcycle.forms import MotorcycleBrandModelForm, MotorcycleModelForm
-from django.contrib.admin.views.decorators import staff_member_required
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
-from django.urls import reverse
+from django.contrib.admin.views.decorators import staff_member_required
+
+from apps.motorcycle.models import Motorcycle, MotorcycleBrand
+from apps.motorcycle.forms import MotorcycleModelForm, MotorcycleBrandModelForm
 
 
 class MotorcycleListView(ListView):
     model = Motorcycle
-    template_name = 'motorcycle/motorcycle.html'
+    template_name = 'motorcycle/motorcycle_list.html'
     context_object_name = 'motorcycles'
     paginate_by = 12
 
@@ -34,14 +35,15 @@ class MotorcycleListView(ListView):
 class MotorcycleDetailView(DetailView):
     model = Motorcycle
     template_name = 'motorcycle/motorcycle_detail.html'
+    context_object_name = 'motorcycle'
     
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')   
-class NewMotorcycleCreateView(CreateView):
+class MotorcycleCreateView(CreateView):
     model = Motorcycle
     form_class = MotorcycleModelForm
-    template_name = "motorcycle/new_motorcycle.html"
-    success_url = '/motorcycle/'
+    template_name = "motorcycle/motorcycle_form.html"
+    success_url = reverse_lazy('motorcycle_list')
 
 
     def get_context_data(self, **kwargs):
@@ -52,11 +54,11 @@ class NewMotorcycleCreateView(CreateView):
     
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
 @method_decorator(staff_member_required, name='dispatch')    
-class NewMotorcycleBrandCreateView(CreateView):
+class MotorcycleBrandCreateView(CreateView):
     model = MotorcycleBrand
     form_class = MotorcycleBrandModelForm
-    template_name = 'motorcycle/new_motorcycle_brand.html'
-    success_url = '/motorcycle/new_motorcycle/'
+    template_name = 'motorcycle/brand_form.html'
+    success_url = reverse_lazy('motorcycle_create')
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
 class MotorcycleUpdateView(UpdateView):
@@ -65,11 +67,11 @@ class MotorcycleUpdateView(UpdateView):
     template_name = 'motorcycle/motorcycle_update.html'
     
     def get_success_url(self):
-        return reverse('motorcycle_detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('motorcycle_detail', kwargs={'pk': self.object.pk})
 
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
 class MotorcycleDeleteView(DeleteView):
     model = Motorcycle
-    template_name = 'motorcycle/motorcycle_delete.html'
-    success_url = '/motorcycle/'
+    template_name = 'motorcycle/motorcycle_confirm_delete.html'
+    success_url = reverse_lazy('motorcycle_list')

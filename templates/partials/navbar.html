@@ -25,10 +25,10 @@
             </button>
             <ul class="nav-dropdown__menu" id="dropdown-cadastro-menu">
                 <li><a href="{% url 'new_car' %}">Cadastrar Carro</a></li>
-                <li><a href="{% url 'new_motorcycle' %}">Cadastrar Moto</a></li>
+                <li><a href="{% url 'motorcycle_create' %}">Cadastrar Moto</a></li>
                 {% if user.is_staff %}
                     <li><a href="{% url 'new_brand' %}">Cadastrar Marca de Carro</a></li>
-                    <li><a href="{% url 'new_motorcycle_brand' %}">Cadastrar Marca de Moto</a></li>
+                    <li><a href="{% url 'motorcycle_brand_create' %}">Cadastrar Marca de Moto</a></li>
                 {% endif %}
             </ul>
         </li>

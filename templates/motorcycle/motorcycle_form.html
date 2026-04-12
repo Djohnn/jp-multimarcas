@@ -45,7 +45,7 @@
         <h2>Adicionar Marca</h2>
         <button class="modal__close" id="btn-close-modal">&times;</button>
     </div>
-    <form method="post" action="{% url 'new_motorcycle_brand' %}" enctype="multipart/form-data">
+    <form method="post" action="{% url 'motorcycle_brand_create' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <table>
             {{ brand_form.as_table }}
