@@ -164,3 +164,152 @@
         gap: var(--space-md);
     }
 }
+
+/* ================================
+   FILTRO
+================================ */
+.filter-section {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+    margin-bottom: var(--space-xl);
+    box-shadow: var(--shadow-sm);
+}
+
+.filter-section__header {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
+.filter-section__header h2 {
+    font-size: var(--font-size-lg);
+}
+
+.filter-row {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.filter-select,
+.filter-input {
+    flex: 1;
+    padding: var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-base);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+.filter-btn {
+    padding: var(--space-md) var(--space-xl);
+    white-space: nowrap;
+}
+
+.filter-label {
+    display: block;
+    text-align: center;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-md);
+}
+
+/* Slider de preço */
+.filter-price {
+    margin-bottom: var(--space-lg);
+    padding: var(--space-md) 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.filter-price__slider {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.price-slider {
+    flex: 1;
+    accent-color: var(--color-primary);
+    height: 4px;
+    cursor: pointer;
+}
+
+.price-value {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-primary);
+    white-space: nowrap;
+    min-width: 120px;
+}
+
+/* Carroceria */
+.filter-body {
+    padding-top: var(--space-lg);
+}
+
+.filter-body__types {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.body-type-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-md) var(--space-lg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg);
+    font-size: var(--font-size-sm);
+    font-family: var(--font-body);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.body-type-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.body-type-btn--active {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background-color: var(--color-surface);
+    font-weight: 600;
+}
+
+/* Resultados */
+.filter-results {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-border);
+}
+
+/* ================================
+   RESPONSIVO FILTRO
+================================ */
+@media (max-width: 768px) {
+    .filter-row {
+        flex-direction: column;
+    }
+
+    .filter-body__types {
+        gap: var(--space-sm);
+    }
+
+    .body-type-btn {
+        padding: var(--space-sm) var(--space-md);
+    }
+}
