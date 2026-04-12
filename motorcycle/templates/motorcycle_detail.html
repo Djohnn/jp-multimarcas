@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load moeda %}
 
 {% block title %}{{ object.brand }} {{ object.model }}{% endblock %}
 
@@ -42,7 +43,7 @@
             </div>
             <div class="detail-info__item">
                 <span class="detail-info__label">Preço</span>
-                <span class="detail-info__value detail-info__value--price">R$ {{ object.value }}</span>
+                <span class="detail-info__value detail-info__value--price">{{ object.value|moeda_br }}</span>
             </div>
         </div>
 

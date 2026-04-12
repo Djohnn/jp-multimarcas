@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load moeda %}
 
 {% block title %}JP Multimarcas — Garage{% endblock %}
 
@@ -30,7 +31,83 @@
             <span class="hero__stat-number">{{ motorcycles_count }}</span>
             <span class="hero__stat-label">Motos</span>
         </div>
+    </div> 
+</section>
+
+<!-- FILTRO -->
+<section class="filter-section">
+    <div class="filter-section__header">
+        <h2>Encontre o Veículo dos Seus Sonhos</h2>
     </div>
+
+    <form method="GET" action="{% url 'home' %}">
+        <!-- Filtro por Marca e Modelo -->
+        <div class="filter-row">
+            <select name="brand" class="filter-select">
+                <option value="">Selecione a Marca</option>
+                {% for brand in brands %}
+                    <option value="{{ brand.id }}" {% if selected_brand == brand.id|stringformat:'s' %}selected{% endif %}>
+                        {{ brand.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <input type="text" name="model" placeholder="Selecione o Modelo" class="filter-input" value="{{ request.GET.model }}">
+            <button type="submit" class="btn btn-primary filter-btn">Pesquisar</button>
+        </div>
+
+        <!-- Faixa de Preço -->
+        <div class="filter-price">
+            <span class="filter-label">Ou por Faixa de Preço</span>
+            <div class="filter-price__slider">
+                <input type="range" name="price_max" min="0" max="500000" step="5000"
+                    value="{{ selected_price_max }}" class="price-slider" id="price-slider">
+                <span class="price-value" id="price-value">R$ {{ selected_price_max|moeda_br }}</span>
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </div>
+        </div>
+
+        <!-- Carroceria -->
+        <div class="filter-body">
+            <span class="filter-label">Ou por Carroceria</span>
+            <div class="filter-body__types">
+                {% for value, label in body_types %}
+                <button type="submit" name="body_type" value="{{ value }}"
+                    class="body-type-btn {% if selected_body_type == value %}body-type-btn--active{% endif %}">
+                    {{ label }}
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+    </form>
+
+    <!-- Resultados do filtro -->
+    {% if request.GET %}
+    <div class="filter-results">
+        <div class="home-section__header">
+            <h2>Resultados</h2>
+            <a href="{% url 'home' %}" class="home-section__link">Limpar filtros ×</a>
+        </div>
+        {% if filtered_cars %}
+        <div class="car-grid">
+            {% for car in filtered_cars %}
+            <a href="{% url 'car_detail' car.pk %}">
+                <div class="car-card">
+                    {% if car.photo %}
+                        <img src="{{ car.photo.url }}" alt="{{ car.model }}">
+                    {% else %}
+                        <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
+                    {% endif %}
+                    <h2>{{ car.brand }} {{ car.model }}</h2>
+                    <p>{{ car.factory_year }} — R$ {{ car.value|moeda_br }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="no-results">Nenhum veículo encontrado com esses filtros.</p>
+        {% endif %}
+    </div>
+    {% endif %}
 </section>
 
 <!-- ÚLTIMOS CARROS -->
@@ -50,7 +127,7 @@
                     <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
                 {% endif %}
                 <h2>{{ car.brand }} {{ car.model }}</h2>
-                <p>{{ car.factory_year }} — R$ {{ car.value }}</p>
+                <p>{{ car.factory_year }} — R$ {{ car.value|moeda_br }}</p>
             </div>
         </a>
         {% endfor %}
@@ -75,12 +152,16 @@
                     <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
                 {% endif %}
                 <h2>{{ moto.brand }} {{ moto.model }}</h2>
-                <p>{{ moto.factory_year }} — {{ moto.engine_cc }}cc — R$ {{ moto.value }}</p>
+                <p>{{ moto.factory_year }} — {{ moto.engine_cc }}cc — R$ {{ moto.value|moeda_br }}</p>
             </div>
         </a>
         {% endfor %}
     </div>
 </section>
 {% endif %}
+
+{% block scripts %}
+    <script src="{% static 'js/home.js' %}"></script>
+{% endblock %}
 
 {% endblock %}

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load moeda %}
 
 {% block title %}Lista de Carros{% endblock %}
 
@@ -34,7 +35,7 @@
             <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
           {% endif %}
           <h2>{{ car.brand }} {{ car.model }}</h2>
-          <p>{{ car.factory_year }} — R$ {{ car.value }}</p>
+          <p>{{ car.factory_year }} — {{ car.value|moeda_br }}</p>
         </div>
       </a>
     {% endfor %}
