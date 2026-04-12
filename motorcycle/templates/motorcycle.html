@@ -10,7 +10,14 @@
 {% block content %}
 <div class="search-bar">
   <form method="GET" action="{% url 'motorcycle_list' %}">
-    <input type="text" name="search" placeholder="Buscar moto...">
+    <input type="text" name="search" placeholder="Buscar moto..." value="{{ request.GET.search }}">
+    <select name="order" class="order-select">
+        <option value="model" {% if request.GET.order == 'model' %}selected{% endif %}>Nome</option>
+        <option value="price_asc" {% if request.GET.order == 'price_asc' %}selected{% endif %}>Menor Preço</option>
+        <option value="price_desc" {% if request.GET.order == 'price_desc' %}selected{% endif %}>Maior Preço</option>
+        <option value="year_asc" {% if request.GET.order == 'year_asc' %}selected{% endif %}>Ano Mais Antigo</option>
+        <option value="year_desc" {% if request.GET.order == 'year_desc' %}selected{% endif %}>Ano Mais Recente</option>
+    </select>
     <button type="submit" class="btn btn-primary">Buscar</button>
   </form>
 </div>
@@ -34,7 +41,20 @@
     <p class="no-results">Nenhuma moto encontrada.</p>
   {% endif %}
 </div>
-{% block scripts %}
-    <script src="{% static 'js/new_car.js' %}"></script>
-{% endblock %}
+{% if is_paginated %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="pagination__btn">← Anterior</a>
+    {% endif %}
+
+    <span class="pagination__info">
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="pagination__btn">Próxima →</a>
+    {% endif %}
+</div>
+{% endif %}
+
 {% endblock %}

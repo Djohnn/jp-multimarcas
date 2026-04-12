@@ -13,7 +13,7 @@ def motorcycle_inventory_update():
         total_value=Sum('value')
         )['total_value']
     MotorcycleInventory.objects.create(
-        motorcyclecount=motorcycle_count,
+        motorcycle_count=motorcycle_count,
         motorcycle_value=motorcycle_value
     )
 

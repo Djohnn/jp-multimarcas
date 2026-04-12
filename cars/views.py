@@ -10,13 +10,26 @@ class CarsListViews(ListView):
     model = Car
     template_name = 'cars.html'
     context_object_name = 'cars'
+    paginate_by = 12
 
     def get_queryset(self):
-        cars = super().get_queryset().order_by('model')
+        cars = super().get_queryset()
         search = self.request.GET.get('search')
+        order = self.request.GET.get('order', 'model')
+
         if search:
             cars = cars.filter(model__icontains=search)
+
+        ordering = {
+            'model': 'model',
+            'price_asc': 'value',
+            'price_desc': '-value',
+            'year_asc': 'factory_year',
+            'year_desc': '-factory_year',
+        }
+        cars = cars.order_by(ordering.get(order, 'model'))
         return cars
+    
     
 class CarDetailView(DetailView):
     model = Car

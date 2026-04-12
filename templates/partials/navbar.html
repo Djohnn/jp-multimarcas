@@ -1,7 +1,7 @@
 <nav>
 <!-- Logo -->
     <div class="nav-logo">
-        <a href="{% url 'cars_list' %}">
+        <a href="{% url 'home' %}">
             {% load static %}
             <img src="{% static 'img/logo.png' %}" 
                 alt="JP Multimarcas"
@@ -17,7 +17,7 @@
     </ul>
 
     <!-- Direita -->
-django<ul class="nav-right">
+<ul class="nav-right">
     {% if user.is_authenticated %}
         <li class="nav-dropdown">
             <button class="nav-dropdown__btn" id="dropdown-cadastro-btn">

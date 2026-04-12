@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}JP Multimarcas — Garage{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero__content">
+        <span class="hero__tag">Bem-vindo à</span>
+        <h1 class="hero__title">JP Multimarcas</h1>
+        <p class="hero__subtitle">Encontre o carro ou moto ideal para você. Qualidade e confiança em cada veículo.</p>
+        <div class="hero__actions">
+            <a href="{% url 'cars_list' %}" class="btn btn-primary">Ver Carros</a>
+            <a href="{% url 'motorcycle_list' %}" class="btn btn-outline">Ver Motos</a>
+        </div>
+    </div>
+    <div class="hero__stats">
+        <div class="hero__stat">
+            <span class="hero__stat-number">{{ cars_count }}</span>
+            <span class="hero__stat-label">Carros</span>
+        </div>
+        <div class="hero__stat-divider"></div>
+        <div class="hero__stat">
+            <span class="hero__stat-number">{{ motorcycles_count }}</span>
+            <span class="hero__stat-label">Motos</span>
+        </div>
+    </div>
+</section>
+
+<!-- ÚLTIMOS CARROS -->
+{% if latest_cars %}
+<section class="home-section">
+    <div class="home-section__header">
+        <h2>Últimos Carros</h2>
+        <a href="{% url 'cars_list' %}" class="home-section__link">Ver todos →</a>
+    </div>
+    <div class="car-grid">
+        {% for car in latest_cars %}
+        <a href="{% url 'car_detail' car.pk %}">
+            <div class="car-card">
+                {% if car.photo %}
+                    <img src="{{ car.photo.url }}" alt="{{ car.model }}">
+                {% else %}
+                    <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
+                {% endif %}
+                <h2>{{ car.brand }} {{ car.model }}</h2>
+                <p>{{ car.factory_year }} — R$ {{ car.value }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- ÚLTIMAS MOTOS -->
+{% if latest_motorcycles %}
+<section class="home-section">
+    <div class="home-section__header">
+        <h2>Últimas Motos</h2>
+        <a href="{% url 'motorcycle_list' %}" class="home-section__link">Ver todas →</a>
+    </div>
+    <div class="car-grid">
+        {% for moto in latest_motorcycles %}
+        <a href="{% url 'motorcycle_detail' moto.pk %}">
+            <div class="car-card">
+                {% if moto.photo %}
+                    <img src="{{ moto.photo.url }}" alt="{{ moto.model }}">
+                {% else %}
+                    <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
+                {% endif %}
+                <h2>{{ moto.brand }} {{ moto.model }}</h2>
+                <p>{{ moto.factory_year }} — {{ moto.engine_cc }}cc — R$ {{ moto.value }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}

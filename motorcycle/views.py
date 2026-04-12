@@ -11,13 +11,24 @@ class MotorcycleListView(ListView):
     model = Motorcycle
     template_name = 'motorcycle.html'
     context_object_name = 'motorcycles'
-
+    paginate_by = 12
 
     def get_queryset(self):
-        motorcycles = super().get_queryset().order_by('model')
+        motorcycles = super().get_queryset()
         search = self.request.GET.get('search')
+        order = self.request.GET.get('order', 'model')
+
         if search:
             motorcycles = motorcycles.filter(model__icontains=search)
+
+        ordering = {
+            'model': 'model',
+            'price_asc': 'value',
+            'price_desc': '-value',
+            'year_asc': 'factory_year',
+            'year_desc': '-factory_year',
+        }
+        motorcycles = motorcycles.order_by(ordering.get(order, 'model'))
         return motorcycles
     
 class MotorcycleDetailView(DetailView):
