@@ -24,7 +24,7 @@ class Motorcycle(models.Model):
     factory_year = models.IntegerField(null=True, blank=True)
     model_year = models.IntegerField(null=True, blank=True)
     plate = models.CharField(max_length=10, blank=True, null=True)
-    value = models.FloatField(null=True, blank=True)
+    value = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     photo = models.ImageField(upload_to='motorcycle/', blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
 
