@@ -31,3 +31,15 @@ class Motorcycle(models.Model):
 
     def __str__(self):
         return f'{self.brand} - {self.model} - {self.engine_cc}cc'
+    
+
+class MotorcycleInventory(models.Model):
+    motorcycle_count = models.IntegerField()
+    motorcycle_value = models.FloatField()
+    created_at = models.DateField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'{self.motorcycle_count} - {self.motorcycle_value}'

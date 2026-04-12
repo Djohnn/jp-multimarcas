@@ -11,8 +11,7 @@ class MotorcycleListView(ListView):
     model = Motorcycle
     template_name = 'motorcycle.html'
     context_object_name = 'motorcycles'
-    moto = Motorcycle.objects.all()
-    print(moto)
+
 
     def get_queryset(self):
         motorcycles = super().get_queryset().order_by('model')
