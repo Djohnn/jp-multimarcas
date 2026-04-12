@@ -3,14 +3,16 @@ from motorcycle.forms import MotorcycleBrandModelForm, MotorcycleModelForm
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.urls import reverse
 
 
 class MotorcycleListView(ListView):
     model = Motorcycle
     template_name = 'motorcycle.html'
-    context_object_name = 'motorcycle'
+    context_object_name = 'motorcycles'
+    moto = Motorcycle.objects.all()
+    print(moto)
 
     def get_queryset(self):
         motorcycles = super().get_queryset().order_by('model')
@@ -18,6 +20,10 @@ class MotorcycleListView(ListView):
         if search:
             motorcycles = motorcycles.filter(model__icontains=search)
         return motorcycles
+    
+class MotorcycleDetailView(DetailView):
+    model = Motorcycle
+    template_name = 'motorcycle_detail.html'
     
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')   
@@ -41,3 +47,19 @@ class NewMotorcycleBrandCreateView(CreateView):
     form_class = MotorcycleBrandModelForm
     template_name = 'new_motorcycle_brand.html'
     success_url = '/motorcycle/new_motorcycle/'
+
+@method_decorator(login_required(login_url='/account/login/'), name='dispatch')
+class MotorcycleUpdateView(UpdateView):
+    model = Motorcycle
+    form_class = MotorcycleModelForm
+    template_name = 'motorcycle_update.html'
+    
+    def get_success_url(self):
+        return reverse('motorcycle_detail', kwargs={'pk': self.object.pk})
+
+
+@method_decorator(login_required(login_url='/account/login/'), name='dispatch')
+class MotorcycleDeleteView(DeleteView):
+    model = Motorcycle
+    template_name = 'motorcycle_delete.html'
+    success_url = '/motorcycle/'

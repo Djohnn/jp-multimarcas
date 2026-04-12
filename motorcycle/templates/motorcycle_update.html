@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Editar — {{ object.brand }} {{ object.model }}{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Editar Moto</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <div class="form-actions">
+            <input type="submit" value="Salvar Alterações" class="btn btn-primary">
+            <a href="{% url 'motorcycle_delete' pk=object.pk %}" class="btn btn-danger">Deletar Moto</a>
+            <a href="{% url 'motorcycle_detail' pk=object.pk %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
