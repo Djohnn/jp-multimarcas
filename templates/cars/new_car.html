@@ -13,7 +13,8 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <table>
-            <tr><th><label>Modelo:</label></th><td>{{ form.model }}</td></tr>
+            <!-- Identificação -->
+            <tr><th colspan="2"><span class="form-section-title">Identificação</span></th></tr>
             <tr>
                 <th><label>Marca:</label></th>
                 <td class="brand-field">
@@ -21,13 +22,39 @@
                     <button type="button" class="btn-add-brand" id="btn-add-brand" title="Nova Marca">+</button>
                 </td>
             </tr>
+            <tr><th><label>Modelo:</label></th><td>{{ form.model }}</td></tr>
+            <tr><th><label>Versão:</label></th><td>{{ form.version }}</td></tr>
             <tr><th><label>Ano Fabricação:</label></th><td>{{ form.factory_year }}</td></tr>
             <tr><th><label>Ano Modelo:</label></th><td>{{ form.model_year }}</td></tr>
             <tr><th><label>Placa:</label></th><td>{{ form.plate }}</td></tr>
-            <tr><th><label>Valor:</label></th><td>{{ form.value }}</td></tr>
+            <tr><th><label>Cor:</label></th><td>{{ form.color }}</td></tr>
+            <tr><th><label>Portas:</label></th><td>{{ form.doors }}</td></tr>
+
+            <!-- Especificações -->
+            <tr><th colspan="2"><span class="form-section-title">Especificações</span></th></tr>
+            <tr><th><label>Combustível:</label></th><td>{{ form.fuel }}</td></tr>
+            <tr><th><label>Câmbio:</label></th><td>{{ form.transmission }}</td></tr>
+            <tr><th><label>Quilometragem:</label></th><td>{{ form.mileage }}</td></tr>
+            <tr><th><label>Carroceria:</label></th><td>{{ form.body_type }}</td></tr>
+
+            <!-- Comercial -->
+            <tr><th colspan="2"><span class="form-section-title">Comercial</span></th></tr>
+            <tr><th><label>Preço de Venda:</label></th><td>{{ form.sale_price }}</td></tr>
+            <tr><th><label>Valor FIPE:</label></th><td>{{ form.fipe_value }}</td></tr>
+            <tr><th><label>Status:</label></th><td>{{ form.status }}</td></tr>
+
+            <!-- Histórico -->
+            <tr><th colspan="2"><span class="form-section-title">Histórico</span></th></tr>
+            <tr><th><label>IPVA Pago:</label></th><td>{{ form.ipva_paid }}</td></tr>
+            <tr><th><label>Licenciado:</label></th><td>{{ form.licensed }}</td></tr>
+            <tr><th><label>Único Dono:</label></th><td>{{ form.single_owner }}</td></tr>
+
+            <!-- Mídia -->
+            <tr><th colspan="2"><span class="form-section-title">Mídia e Descrição</span></th></tr>
             <tr><th><label>Foto:</label></th><td>{{ form.photo }}</td></tr>
             <tr><th><label>Descrição:</label></th><td>{{ form.bio }}</td></tr>
         </table>
+
         <div class="form-actions">
             <input type="submit" value="Cadastrar" class="btn btn-primary">
         </div>
@@ -53,7 +80,6 @@
         </div>
     </form>
 </div>
-
 
 {% block scripts %}
     <script src="{% static 'js/new_car.js' %}"></script>
