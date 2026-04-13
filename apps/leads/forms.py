@@ -4,6 +4,12 @@ from apps.cars.models import Car
 from apps.motorcycle.models import Motorcycle
 
 
+class LeadStatusForm(forms.ModelForm):
+    class Meta:
+        model = Lead
+        fields = ['status', 'assigned_to']
+
+
 class LeadForm(forms.ModelForm):
 
     class Meta:
