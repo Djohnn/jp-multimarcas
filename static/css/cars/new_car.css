@@ -96,3 +96,18 @@
         padding: var(--space-lg);
     }
 }
+
+/* ================================
+   SEÇÕES DO FORM
+================================ */
+.form-section-title {
+    display: block;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: var(--space-md) 0 var(--space-xs);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-xs);
+}
