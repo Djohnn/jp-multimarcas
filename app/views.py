@@ -33,7 +33,7 @@ class HomeView(TemplateView):
         context['motorcycles_count'] = Motorcycle.objects.count()
         context['brands'] = Brand.objects.all().order_by('name')
         context['filtered_cars'] = cars.order_by('-id')
-        context['body_types'] = Car.BODY_TYPES
+        context['body_types'] = Car.BodyTypeChoices.choices
         context['selected_brand'] = brand_id
         context['selected_body_type'] = body_type
         context['selected_price_max'] = price_max or 500000
