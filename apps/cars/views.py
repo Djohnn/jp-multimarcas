@@ -1,4 +1,5 @@
 from apps.cars.models import Car, Brand
+from django.conf import settings
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
@@ -34,6 +35,18 @@ class CarsListView(ListView):
 class CarDetailView(DetailView):
     model = Car
     template_name = 'cars/car_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        car = self.object
+        context['whatsapp_number'] = settings.WHATSAPP_NUMBER
+        context['mensagem_whatsapp'] = (
+            f"Olá! Tenho interesse no {car.brand} {car.model} "
+            f"{car.factory_year}/{car.model_year}. "
+            f"Preço: R$ {car.sale_price}. "
+            f"Pode me passar mais informações?"
+        )
+        return context
 
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
