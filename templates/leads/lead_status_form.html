@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Atualizar Lead{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Atualizar Status do Lead</h1>
+
+    <div class="lead-info">
+        <p><strong>Cliente:</strong> {{ object.name }}</p>
+        <p><strong>Telefone:</strong> {{ object.phone }}</p>
+        {% if object.car %}
+        <p><strong>Veículo:</strong> {{ object.car.brand }} {{ object.car.model }} {{ object.car.factory_year }}</p>
+        {% elif object.motorcycle %}
+        <p><strong>Veículo:</strong> {{ object.motorcycle.brand }} {{ object.motorcycle.model }}</p>
+        {% endif %}
+        {% if object.message %}
+        <p><strong>Mensagem:</strong> {{ object.message }}</p>
+        {% endif %}
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <table>
+            <tr><th><label>Status:</label></th><td>{{ form.status }}</td></tr>
+            <tr><th><label>Vendedor:</label></th><td>{{ form.assigned_to }}</td></tr>
+        </table>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{% url 'lead_list' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
