@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'apps.cars',
     'apps.account',
     'apps.motorcycle',
+    'apps.leads',
 ]
 
 MIDDLEWARE = [
@@ -151,3 +152,4 @@ MEDIA_ROOT = os.path.join( BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 GEMINI_API_KEY = config('GEMINI_API_KEY')
+WHATSAPP_NUMBER = config('WHATSAPP_NUMBER', default='5562999990000')
