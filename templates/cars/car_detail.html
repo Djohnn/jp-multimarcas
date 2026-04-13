@@ -19,7 +19,10 @@
 
     <div class="detail-card">
         <h2>{{ object.brand }} {{ object.model }}</h2>
+        {% if object.version %}<p class="detail-version">{{ object.version }}</p>{% endif %}
 
+        <!-- Identificação -->
+        <span class="detail-section-title">Identificação</span>
         <div class="detail-info">
             <div class="detail-info__item">
                 <span class="detail-info__label">Ano de Fabricação</span>
@@ -34,25 +37,86 @@
                 <span class="detail-info__value">{{ object.plate }}</span>
             </div>
             <div class="detail-info__item">
-                <span class="detail-info__label">Preço</span>
-                <span class="detail-info__value detail-info__value--price">{{ object.value|moeda_br }}</span>
+                <span class="detail-info__label">Cor</span>
+                <span class="detail-info__value">{{ object.color|default:"—" }}</span>
             </div>
             <div class="detail-info__item">
-                <span class="detail-info__label">Tipo</span>
-                <span class="detail-info__value"> {{ object.body_type }}</span>
+                <span class="detail-info__label">Portas</span>
+                <span class="detail-info__value">{{ object.doors }}</span>
             </div>
-            {% if object.bio %}
-            <div class="detail-bio">
-                <span class="detail-info__label">Descrição</span>
-                <p class="detail-bio__text">{{ object.bio }}</p>
+            <div class="detail-info__item">
+                <span class="detail-info__label">Carroceria</span>
+                <span class="detail-info__value">{{ object.get_body_type_display|default:"—" }}</span>
             </div>
-            {% endif %}
         </div>
 
+        <!-- Especificações -->
+        <span class="detail-section-title">Especificações</span>
+        <div class="detail-info">
+            <div class="detail-info__item">
+                <span class="detail-info__label">Combustível</span>
+                <span class="detail-info__value">{{ object.get_fuel_display|default:"—" }}</span>
+            </div>
+            <div class="detail-info__item">
+                <span class="detail-info__label">Câmbio</span>
+                <span class="detail-info__value">{{ object.get_transmission_display|default:"—" }}</span>
+            </div>
+            <div class="detail-info__item">
+                <span class="detail-info__label">Quilometragem</span>
+                <span class="detail-info__value">{{ object.mileage|default:"—" }} km</span>
+            </div>
+        </div>
+
+        <!-- Comercial -->
+        <span class="detail-section-title">Comercial</span>
+        <div class="detail-info">
+            <div class="detail-info__item">
+                <span class="detail-info__label">Preço de Venda</span>
+                <span class="detail-info__value detail-info__value--price">{{ object.sale_price|moeda_br }}</span>
+            </div>
+            {% if object.fipe_value %}
+            <div class="detail-info__item">
+                <span class="detail-info__label">Valor FIPE</span>
+                <span class="detail-info__value">{{ object.fipe_value|moeda_br }}</span>
+            </div>
+            {% endif %}
+            <div class="detail-info__item">
+                <span class="detail-info__label">Status</span>
+                <span class="detail-info__value">{{ object.get_status_display }}</span>
+            </div>
+        </div>
+
+        <!-- Histórico -->
+        <span class="detail-section-title">Histórico</span>
+        <div class="detail-info">
+            <div class="detail-info__item">
+                <span class="detail-info__label">IPVA Pago</span>
+                <span class="detail-info__value">{{ object.ipva_paid|yesno:"Sim,Não" }}</span>
+            </div>
+            <div class="detail-info__item">
+                <span class="detail-info__label">Licenciado</span>
+                <span class="detail-info__value">{{ object.licensed|yesno:"Sim,Não" }}</span>
+            </div>
+            <div class="detail-info__item">
+                <span class="detail-info__label">Único Dono</span>
+                <span class="detail-info__value">{{ object.single_owner|yesno:"Sim,Não" }}</span>
+            </div>
+        </div>
+
+        <!-- Descrição -->
+        {% if object.bio %}
+        <div class="detail-bio">
+            <span class="detail-info__label">Descrição</span>
+            <p class="detail-bio__text">{{ object.bio }}</p>
+        </div>
+        {% endif %}
+
+        {% if user.is_authenticated %}
         <div class="detail-actions">
             <a href="{% url 'car_update' pk=object.pk %}" class="btn btn-primary">Editar</a>
             <a href="{% url 'car_delete' pk=object.pk %}" class="btn btn-danger">Deletar</a>
         </div>
+        {% endif %}
     </div>
 
 </div>
