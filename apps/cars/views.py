@@ -1,5 +1,5 @@
 from apps.cars.models import Car, Brand
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
@@ -47,6 +47,7 @@ class NewCarCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['brand_form'] = BrandModelForm()
         return context
+    
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
 @method_decorator(staff_member_required, name='dispatch')
@@ -54,7 +55,7 @@ class NewBrandCreateView(CreateView):
     model = Brand
     form_class = BrandModelForm
     template_name = 'cars/new_brand.html'
-    success_url = '/new_car/'
+    success_url = reverse_lazy('new_car')
 
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
@@ -64,7 +65,7 @@ class CarUpdateView(UpdateView):
     template_name = 'cars/car_update.html'
     
     def get_success_url(self):
-        return reverse('car_detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('car_detail', kwargs={'pk': self.object.pk})
 
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
