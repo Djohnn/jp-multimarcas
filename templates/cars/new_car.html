@@ -19,7 +19,9 @@
                 <th><label>Marca:</label></th>
                 <td class="brand-field">
                     {{ form.brand }}
+                    {% if user.is_staff %}
                     <button type="button" class="btn-add-brand" id="btn-add-brand" title="Nova Marca">+</button>
+                    {% endif %}
                 </td>
             </tr>
             <tr><th><label>Modelo:</label></th><td>{{ form.model }}</td></tr>
