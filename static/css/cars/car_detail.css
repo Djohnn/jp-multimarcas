@@ -149,8 +149,63 @@
 }
 
 /* ================================
-   MODAL LEAD
+   MODAL
 ================================ */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 200;
+    backdrop-filter: blur(2px);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 300;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+    width: 100%;
+    max-width: 460px;
+    box-shadow: var(--shadow-lg);
+}
+
+.modal--open {
+    display: block;
+}
+
+.modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.modal__header h2 {
+    font-size: var(--font-size-md);
+}
+
+.modal__close {
+    background: none;
+    border: none;
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: color var(--transition);
+}
+
+.modal__close:hover {
+    color: var(--color-primary);
+}
+
 .modal__subtitle {
     font-size: var(--font-size-sm);
     color: var(--color-text-muted);
@@ -177,7 +232,9 @@
     color: var(--color-text);
 }
 
-
+/* ================================
+   WHATSAPP
+================================ */
 .btn-whatsapp {
     background-color: #25D366;
     color: white;
@@ -191,4 +248,11 @@
     color: white;
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 768px) {
+    .modal {
+        max-width: 90vw;
+        padding: var(--space-lg);
+    }
 }
