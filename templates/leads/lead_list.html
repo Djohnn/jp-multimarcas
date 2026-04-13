@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Leads{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/leads/lead_list.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="leads-header">
+    <h1>Leads</h1>
+    <form method="GET" class="leads-filter">
+        <select name="status" class="order-select" onchange="this.form.submit()">
+            <option value="">Todos os status</option>
+            {% for value, label in status_choices %}
+                <option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+</div>
+
+<div class="leads-stats">
+    <div class="leads-stat">
+        <span class="leads-stat__number">{{ total }}</span>
+        <span class="leads-stat__label">Total</span>
+    </div>
+    <div class="leads-stat">
+        <span class="leads-stat__number">{{ count_new }}</span>
+        <span class="leads-stat__label">Novos</span>
+    </div>
+    <div class="leads-stat">
+        <span class="leads-stat__number">{{ count_contacted }}</span>
+        <span class="leads-stat__label">Contatados</span>
+    </div>
+    <div class="leads-stat">
+        <span class="leads-stat__number">{{ count_negotiating }}</span>
+        <span class="leads-stat__label">Em Negociação</span>
+    </div>
+    <div class="leads-stat">
+        <span class="leads-stat__number">{{ count_closed }}</span>
+        <span class="leads-stat__label">Fechados</span>
+    </div>
+    <div class="leads-stat">
+        <span class="leads-stat__number">{{ count_lost }}</span>
+        <span class="leads-stat__label">Perdidos</span>
+    </div>
+</div>
+
+<div class="leads-table-wrapper">
+    <table class="leads-table">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Telefone</th>
+                <th>Veículo</th>
+                <th>Status</th>
+                <th>Vendedor</th>
+                <th>Data</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lead in leads %}
+            <tr class="leads-table__row">
+                <td>
+                    <span class="leads-table__name">{{ lead.name }}</span>
+                    {% if lead.email %}
+                    <span class="leads-table__email">{{ lead.email }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="https://wa.me/55{{ lead.phone }}" target="_blank" class="leads-table__phone">
+                        {{ lead.phone }}
+                    </a>
+                </td>
+                <td>
+                    {% if lead.car %}
+                        <a href="{% url 'car_detail' lead.car.pk %}">
+                            {{ lead.car.brand }} {{ lead.car.model }} {{ lead.car.factory_year }}
+                        </a>
+                    {% elif lead.motorcycle %}
+                        <a href="{% url 'motorcycle_detail' lead.motorcycle.pk %}">
+                            {{ lead.motorcycle.brand }} {{ lead.motorcycle.model }}
+                        </a>
+                    {% endif %}
+                </td>
+                <td>
+                    <span class="leads-table__status leads-table__status--{{ lead.status }}">
+                        {{ lead.get_status_display }}
+                    </span>
+                </td>
+                <td>{{ lead.assigned_to|default:"—" }}</td>
+                <td>{{ lead.created_at|date:"d/m/Y H:i" }}</td>
+                <td>
+                    <a href="{% url 'lead_update_status' lead.pk %}" class="btn btn-outline btn-sm">
+                        Atualizar
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="leads-table__empty">Nenhum lead encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if is_paginated %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if selected_status %}&status={{ selected_status }}{% endif %}" class="pagination__btn">← Anterior</a>
+    {% endif %}
+    <span class="pagination__info">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if selected_status %}&status={{ selected_status }}{% endif %}" class="pagination__btn">Próxima →</a>
+    {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}
