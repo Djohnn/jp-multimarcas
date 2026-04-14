@@ -10,8 +10,8 @@ from gemini_api.client import get_motorcycle_ai_bio
 def motorcycle_inventory_update():
     motorcycle_count = Motorcycle.objects.all().count()
     motorcycle_value = Motorcycle.objects.aggregate(
-        total_value=Sum('value')
-        )['total_value']
+        total_value=Sum('sale_price')
+        )['total_value'] or 0
     MotorcycleInventory.objects.create(
         motorcycle_count=motorcycle_count,
         motorcycle_value=motorcycle_value
