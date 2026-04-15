@@ -31,7 +31,7 @@
             <span class="hero__stat-number">{{ motorcycles_count }}</span>
             <span class="hero__stat-label">Motos</span>
         </div>
-    </div> 
+    </div>
 </section>
 
 <!-- FILTRO -->
@@ -41,7 +41,6 @@
     </div>
 
     <form method="GET" action="{% url 'home' %}">
-        <!-- Filtro por Marca e Modelo -->
         <div class="filter-row">
             <select name="brand" class="filter-select">
                 <option value="">Selecione a Marca</option>
@@ -55,18 +54,16 @@
             <button type="submit" class="btn btn-primary filter-btn">Pesquisar</button>
         </div>
 
-        <!-- Faixa de Preço -->
         <div class="filter-price">
             <span class="filter-label">Ou por Faixa de Preço</span>
             <div class="filter-price__slider">
                 <input type="range" name="price_max" min="0" max="500000" step="5000"
                     value="{{ selected_price_max }}" class="price-slider" id="price-slider">
-                <span class="price-value" id="price-value">R$ {{ selected_price_max|moeda_br }}</span>
+                <span class="price-value" id="price-value">R$ {{ selected_price_max }}</span>
                 <button type="submit" class="btn btn-primary">Filtrar</button>
             </div>
         </div>
 
-        <!-- Carroceria -->
         <div class="filter-body">
             <span class="filter-label">Ou por Carroceria</span>
             <div class="filter-body__types">
@@ -80,7 +77,6 @@
         </div>
     </form>
 
-    <!-- Resultados do filtro -->
     {% if request.GET %}
     <div class="filter-results">
         <div class="home-section__header">
@@ -92,53 +88,50 @@
             {% for car in filtered_cars %}
             <a href="{% url 'car_detail' car.pk %}">
                 <div class="car-card">
-
                     {% if car.photo %}
                         <img src="{{ car.photo.url }}" alt="{{ car.model }} - {{ car.brand }}">
                     {% else %}
                         <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
                     {% endif %}
-
                     <div class="car-card__body">
-                        <span class="car-card__year">
-                            {{ car.factory_year }}/{{ car.model_year }}
-                        </span>
-
-                        <h2 class="car-card__title">
-                            {{ car.brand }} {{ car.model }}
-                        </h2>
-
-                        {% if car.version %}
-                            <span class="car-card__version">{{ car.version }}</span>
-                        {% endif %}
-
-                        <span class="car-card__price">
-                            {{ car.sale_price|moeda_br }}
-                        </span>
+                        <span class="car-card__year">{{ car.factory_year }}/{{ car.model_year }}</span>
+                        <h2 class="car-card__title">{{ car.brand }} {{ car.model }}</h2>
+                        {% if car.version %}<span class="car-card__version">{{ car.version }}</span>{% endif %}
+                        <span class="car-card__price">{{ car.sale_price|moeda_br }}</span>
                     </div>
-
                     <div class="car-card__tags">
-
                         {% if car.transmission %}
                         <span class="car-card__tag">
+                            <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="5" cy="5" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="19" cy="5" r="2"/>
+                                <circle cx="5" cy="19" r="2"/><circle cx="12" cy="19" r="2"/>
+                                <line x1="5" y1="7" x2="5" y2="17"/><line x1="12" y1="7" x2="12" y2="12"/>
+                                <line x1="12" y1="12" x2="5" y2="17"/><line x1="12" y1="12" x2="19" y2="7"/>
+                            </svg>
                             {{ car.get_transmission_display }}
                         </span>
                         {% endif %}
-
                         {% if car.mileage %}
                         <span class="car-card__tag">
+                            <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="9"/>
+                                <polyline points="12 7 12 12 15 15"/>
+                            </svg>
                             {{ car.mileage }} km
                         </span>
                         {% endif %}
-
                         {% if car.fuel %}
                         <span class="car-card__tag">
+                            <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M3 22V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/>
+                                <path d="M3 22h12"/>
+                                <path d="M15 8h2a2 2 0 0 1 2 2v5a2 2 0 0 0 2 2v0a2 2 0 0 0 2-2V9l-3-3"/>
+                                <line x1="7" y1="4" x2="7" y2="8"/>
+                            </svg>
                             {{ car.get_fuel_display }}
                         </span>
                         {% endif %}
-
                     </div>
-
                 </div>
             </a>
             {% endfor %}
@@ -166,8 +159,45 @@
                 {% else %}
                     <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
                 {% endif %}
-                <h2>{{ car.brand }} {{ car.model }}</h2>
-                <p>{{ car.factory_year }} — R$ {{ car.sale_price|moeda_br }}</p>
+                <div class="car-card__body">
+                    <span class="car-card__year">{{ car.factory_year }}/{{ car.model_year }}</span>
+                    <h2 class="car-card__title">{{ car.brand }} {{ car.model }}</h2>
+                    {% if car.version %}<span class="car-card__version">{{ car.version }}</span>{% endif %}
+                    <span class="car-card__price">{{ car.sale_price|moeda_br }}</span>
+                </div>
+                <div class="car-card__tags">
+                    {% if car.transmission %}
+                    <span class="car-card__tag">
+                        <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="5" cy="5" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="19" cy="5" r="2"/>
+                            <circle cx="5" cy="19" r="2"/><circle cx="12" cy="19" r="2"/>
+                            <line x1="5" y1="7" x2="5" y2="17"/><line x1="12" y1="7" x2="12" y2="12"/>
+                            <line x1="12" y1="12" x2="5" y2="17"/><line x1="12" y1="12" x2="19" y2="7"/>
+                        </svg>
+                        {{ car.get_transmission_display }}
+                    </span>
+                    {% endif %}
+                    {% if car.mileage %}
+                    <span class="car-card__tag">
+                        <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="9"/>
+                            <polyline points="12 7 12 12 15 15"/>
+                        </svg>
+                        {{ car.mileage }} km
+                    </span>
+                    {% endif %}
+                    {% if car.fuel %}
+                    <span class="car-card__tag">
+                        <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M3 22V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/>
+                            <path d="M3 22h12"/>
+                            <path d="M15 8h2a2 2 0 0 1 2 2v5a2 2 0 0 0 2 2v0a2 2 0 0 0 2-2V9l-3-3"/>
+                            <line x1="7" y1="4" x2="7" y2="8"/>
+                        </svg>
+                        {{ car.get_fuel_display }}
+                    </span>
+                    {% endif %}
+                </div>
             </div>
         </a>
         {% endfor %}
@@ -191,8 +221,45 @@
                 {% else %}
                     <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
                 {% endif %}
-                <h2>{{ moto.brand }} {{ moto.model }}</h2>
-                <p>{{ moto.factory_year }} — {{ moto.engine_cc }}cc — R$ {{ moto.sale_price|moeda_br }}</p>
+                <div class="car-card__body">
+                    <span class="car-card__year">{{ moto.factory_year }}/{{ moto.model_year }}</span>
+                    <h2 class="car-card__title">{{ moto.brand }} {{ moto.model }}</h2>
+                    {% if moto.version %}<span class="car-card__version">{{ moto.version }}</span>{% endif %}
+                    <span class="car-card__price">{{ moto.sale_price|moeda_br }}</span>
+                </div>
+                <div class="car-card__tags">
+                    {% if moto.transmission %}
+                    <span class="car-card__tag">
+                        <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="5" cy="5" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="19" cy="5" r="2"/>
+                            <circle cx="5" cy="19" r="2"/><circle cx="12" cy="19" r="2"/>
+                            <line x1="5" y1="7" x2="5" y2="17"/><line x1="12" y1="7" x2="12" y2="12"/>
+                            <line x1="12" y1="12" x2="5" y2="17"/><line x1="12" y1="12" x2="19" y2="7"/>
+                        </svg>
+                        {{ moto.get_transmission_display }}
+                    </span>
+                    {% endif %}
+                    {% if moto.engine_cc %}
+                    <span class="car-card__tag">
+                        <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="9"/>
+                            <polyline points="12 7 12 12 15 15"/>
+                        </svg>
+                        {{ moto.engine_cc }}cc
+                    </span>
+                    {% endif %}
+                    {% if moto.fuel %}
+                    <span class="car-card__tag">
+                        <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M3 22V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/>
+                            <path d="M3 22h12"/>
+                            <path d="M15 8h2a2 2 0 0 1 2 2v5a2 2 0 0 0 2 2v0a2 2 0 0 0 2-2V9l-3-3"/>
+                            <line x1="7" y1="4" x2="7" y2="8"/>
+                        </svg>
+                        {{ moto.get_fuel_display }}
+                    </span>
+                    {% endif %}
+                </div>
             </div>
         </a>
         {% endfor %}
