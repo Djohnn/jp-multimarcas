@@ -66,8 +66,11 @@ class NewCarCreateView(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
     
+    def form_invalid(self, form):
+        print("ERROS DO FORMULÁRIO:", form.errors)
+        return super().form_invalid(form)
     
-
+    
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
 @method_decorator(staff_member_required, name='dispatch')
 class NewBrandCreateView(CreateView):

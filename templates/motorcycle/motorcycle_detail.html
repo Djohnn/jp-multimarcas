@@ -119,8 +119,8 @@
             </button>
             {% if user.is_authenticated %}
                 {% if request.user == object.user  %}
-                    <a href="{% url 'car_update' pk=object.pk %}" class="btn btn-outline">Editar</a>
-                    <a href="{% url 'car_delete' pk=object.pk %}" class="btn btn-danger">Deletar</a>
+                    <a href="{% url 'motorcycle_update' pk=object.pk %}" class="btn btn-outline">Editar</a>
+                    <a href="{% url 'motorcycle_delete' pk=object.pk %}" class="btn btn-danger">Deletar</a>
                 {% else %}
                     <span>Criador: <strong>{{ object.user.username }}</strong></span>
                 {% endif %}

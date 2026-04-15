@@ -88,10 +88,10 @@ class MotorcycleUpdateView(OwnerRequiredMixin, OwnerQuerySetMixin, UserFormKwarg
 
     def get_success_url(self):
         return reverse('motorcycle_detail', kwargs={'pk': self.object.pk})
-
-
+    
+    
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
-class MotorcycleDeleteView(OwnerRequiredMixin, OwnerQuerySetMixin, UserFormKwargsMixin, DeleteView):
+class MotorcycleDeleteView(OwnerRequiredMixin, OwnerQuerySetMixin, DeleteView):
     model = Motorcycle
     template_name = 'motorcycle/motorcycle_confirm_delete.html'
     success_url = reverse_lazy('motorcycle_list')

@@ -111,3 +111,43 @@
     border-bottom: 1px solid var(--color-border);
     margin-bottom: var(--space-xs);
 }
+
+
+/* Estilos para validação de formulários Django */
+
+.errorlist { 
+    color: #ff0000; 
+    list-style: none; 
+    padding: 0; 
+    font-size: 0.85em; 
+    margin-top: 5px;
+}
+
+.field-error { 
+    border: 1px solid red !important; 
+}
+
+.alert-danger { 
+    background-color: #f8d7da; 
+    color: #721c24; 
+    padding: 15px; 
+    border-radius: 4px; 
+    margin-bottom: 20px; 
+    border: 1px solid #f5c6cb;
+    font-weight: bold;
+}
+
+/* Opcional: destaque para o label quando houver erro */
+.errorlist + label {
+    color: red;
+}
+
+.alert-danger ul {
+    margin-top: 10px;
+    margin-bottom: 0;
+    padding-left: 20px; /* Dá um leve recuo para os itens da lista */
+}
+
+.alert-danger li {
+    list-style-type: disc; /* Adiciona uma bolinha nos erros */
+}

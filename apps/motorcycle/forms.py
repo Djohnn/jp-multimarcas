@@ -50,7 +50,7 @@ class MotorcycleModelForm(ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         # Se for uma edição, valida se o dono permanece o mesmo
-        if self.instance.pk:
+        if self.instance.pk and self.instance.user:
             if self.instance.user != self.user:
                 raise ValidationError("Ação não autorizada.")
         return cleaned_data
