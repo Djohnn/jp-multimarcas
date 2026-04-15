@@ -7,6 +7,7 @@ from django.conf import settings
 
 from apps.motorcycle.models import Motorcycle, MotorcycleBrand
 from apps.motorcycle.forms import MotorcycleModelForm, MotorcycleBrandModelForm
+from app.mixins import OwnerQuerySetMixin, OwnerRequiredMixin, UserFormKwargsMixin
 
 
 class MotorcycleListView(ListView):
@@ -65,6 +66,10 @@ class MotorcycleCreateView(CreateView):
         context['brand_form'] = MotorcycleBrandModelForm()
         return context
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
 @method_decorator(staff_member_required, name='dispatch')
@@ -76,7 +81,7 @@ class MotorcycleBrandCreateView(CreateView):
 
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
-class MotorcycleUpdateView(UpdateView):
+class MotorcycleUpdateView(OwnerRequiredMixin, OwnerQuerySetMixin, UserFormKwargsMixin, UpdateView):
     model = Motorcycle
     form_class = MotorcycleModelForm
     template_name = 'motorcycle/motorcycle_update.html'
@@ -86,7 +91,7 @@ class MotorcycleUpdateView(UpdateView):
 
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
-class MotorcycleDeleteView(DeleteView):
+class MotorcycleDeleteView(OwnerRequiredMixin, OwnerQuerySetMixin, UserFormKwargsMixin, DeleteView):
     model = Motorcycle
     template_name = 'motorcycle/motorcycle_confirm_delete.html'
     success_url = reverse_lazy('motorcycle_list')

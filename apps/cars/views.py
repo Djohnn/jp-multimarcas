@@ -6,6 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from apps.cars.forms import CarModelForm, BrandModelForm
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from app.mixins import OwnerQuerySetMixin, OwnerRequiredMixin, UserFormKwargsMixin
     
 class CarsListView(ListView):
     model = Car
@@ -61,6 +62,11 @@ class NewCarCreateView(CreateView):
         context['brand_form'] = BrandModelForm()
         return context
     
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+    
+    
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
 @method_decorator(staff_member_required, name='dispatch')
@@ -72,7 +78,7 @@ class NewBrandCreateView(CreateView):
 
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
-class CarUpdateView(UpdateView):
+class CarUpdateView(OwnerRequiredMixin, OwnerQuerySetMixin, UserFormKwargsMixin, UpdateView):
     model = Car
     form_class = CarModelForm
     template_name = 'cars/car_update.html'
@@ -82,7 +88,7 @@ class CarUpdateView(UpdateView):
 
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
-class CarDeleteView(DeleteView):
+class CarDeleteView(OwnerRequiredMixin, OwnerQuerySetMixin, UserFormKwargsMixin, DeleteView):
     model = Car
     template_name = 'cars/car_delete.html'
     success_url = '/cars/'
