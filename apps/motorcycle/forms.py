@@ -1,8 +1,15 @@
 from django.forms import ModelForm
+from django.core.exceptions import ValidationError
 from apps.motorcycle.models import Motorcycle, MotorcycleBrand
 
 
 class MotorcycleModelForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+
     class Meta:
         model = Motorcycle
         fields = [
@@ -39,6 +46,14 @@ class MotorcycleModelForm(ModelForm):
         if sale_price and sale_price < 1000:
             self.add_error('sale_price', 'Valor da moto deve ser maior que R$ 1.000')
         return sale_price
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        # Se for uma edição, valida se o dono permanece o mesmo
+        if self.instance.pk:
+            if self.instance.user != self.user:
+                raise ValidationError("Ação não autorizada.")
+        return cleaned_data
 
 
 class MotorcycleBrandModelForm(ModelForm):
