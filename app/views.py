@@ -23,7 +23,7 @@ class HomeView(TemplateView):
         if model:
             cars = cars.filter(model__icontains=model)
         if price_max:
-            cars = cars.filter(value__lte=price_max)
+            cars = cars.filter(sale_price__lte=price_max)
         if body_type:
             cars = cars.filter(body_type=body_type)
 
