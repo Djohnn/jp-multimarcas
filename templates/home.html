@@ -92,13 +92,53 @@
             {% for car in filtered_cars %}
             <a href="{% url 'car_detail' car.pk %}">
                 <div class="car-card">
+
                     {% if car.photo %}
-                        <img src="{{ car.photo.url }}" alt="{{ car.model }}">
+                        <img src="{{ car.photo.url }}" alt="{{ car.model }} - {{ car.brand }}">
                     {% else %}
                         <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
                     {% endif %}
-                    <h2>{{ car.brand }} {{ car.model }}</h2>
-                    <p>{{ car.factory_year }} — R$ {{ car.value|moeda_br }}</p>
+
+                    <div class="car-card__body">
+                        <span class="car-card__year">
+                            {{ car.factory_year }}/{{ car.model_year }}
+                        </span>
+
+                        <h2 class="car-card__title">
+                            {{ car.brand }} {{ car.model }}
+                        </h2>
+
+                        {% if car.version %}
+                            <span class="car-card__version">{{ car.version }}</span>
+                        {% endif %}
+
+                        <span class="car-card__price">
+                            {{ car.sale_price|moeda_br }}
+                        </span>
+                    </div>
+
+                    <div class="car-card__tags">
+
+                        {% if car.transmission %}
+                        <span class="car-card__tag">
+                            {{ car.get_transmission_display }}
+                        </span>
+                        {% endif %}
+
+                        {% if car.mileage %}
+                        <span class="car-card__tag">
+                            {{ car.mileage }} km
+                        </span>
+                        {% endif %}
+
+                        {% if car.fuel %}
+                        <span class="car-card__tag">
+                            {{ car.get_fuel_display }}
+                        </span>
+                        {% endif %}
+
+                    </div>
+
                 </div>
             </a>
             {% endfor %}
@@ -127,7 +167,7 @@
                     <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
                 {% endif %}
                 <h2>{{ car.brand }} {{ car.model }}</h2>
-                <p>{{ car.factory_year }} — R$ {{ car.value|moeda_br }}</p>
+                <p>{{ car.factory_year }} — R$ {{ car.sale_price|moeda_br }}</p>
             </div>
         </a>
         {% endfor %}
@@ -152,7 +192,7 @@
                     <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
                 {% endif %}
                 <h2>{{ moto.brand }} {{ moto.model }}</h2>
-                <p>{{ moto.factory_year }} — {{ moto.engine_cc }}cc — R$ {{ moto.value|moeda_br }}</p>
+                <p>{{ moto.factory_year }} — {{ moto.engine_cc }}cc — R$ {{ moto.sale_price|moeda_br }}</p>
             </div>
         </a>
         {% endfor %}
