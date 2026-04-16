@@ -77,3 +77,8 @@
     color: var(--color-primary);
     margin-bottom: var(--space-xs);
 }
+
+p.subtitle {
+    line-height: 1.5;
+    color: #666; /* Um cinza leve para não brigar com o título */
+}
