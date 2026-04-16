@@ -1,0 +1,11 @@
+/* Este arquivo só será carregado no Login e Registro */
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                      url('../../img/fundo.png'); /* Verifique se o caminho está certo aqui */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+

@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/account/auth_screens.css' %}">
+{% endblock %}
+
 {% block title %}Login{% endblock %}
 
 
