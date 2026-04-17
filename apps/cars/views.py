@@ -24,8 +24,8 @@ class CarsListView(ListView):
 
         ordering = {
             'model': 'model',
-            'price_asc': 'value',
-            'price_desc': '-value',
+            'price_asc': 'sale_price',
+            'price_desc': '-sale_price',
             'year_asc': 'factory_year',
             'year_desc': '-factory_year',
         }
