@@ -10,7 +10,8 @@ class OwnerRequiredMixin(UserPassesTestMixin):
     
     
     def handle_no_permission(self):
-        raise PermissionDenied("Você não tem permissão para acessarisso.")
+        raise PermissionDenied("Você não tem permissão para acessar isso.")
+    
 
 class OwnerQuerySetMixin:
     """Isola os dados no nível da consulta ao banco"""
@@ -18,6 +19,7 @@ class OwnerQuerySetMixin:
     def get_queryset(self):
         qs = super().get_queryset()
         return qs.filter(user=self.request.user)
+    
 
 class UserFormKwargsMixin:
     """Injeta o usuário logado nos argumentos do formulário"""
@@ -26,3 +28,4 @@ class UserFormKwargsMixin:
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user 
         return kwargs
+    
