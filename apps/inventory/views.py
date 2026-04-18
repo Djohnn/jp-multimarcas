@@ -1,5 +1,7 @@
 import json
 from decimal import Decimal
+from django.utils.decorators import method_decorator
+from django.contrib.admin.views.decorators import staff_member_required
 
 from django.core.paginator import Paginator
 from django.utils.safestring import mark_safe
@@ -9,6 +11,7 @@ from apps.cars.models import CarInventory
 from apps.motorcycle.models import MotorcycleInventory
 
 
+@method_decorator(staff_member_required, name='dispatch')
 class InventoryDashboardView(TemplateView):
     template_name = 'inventory/dashboard.html'
 
