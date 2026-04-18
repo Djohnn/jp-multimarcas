@@ -91,7 +91,7 @@ class CarUpdateView(OwnerRequiredMixin, OwnerQuerySetMixin, UserFormKwargsMixin,
 
 
 @method_decorator(login_required(login_url='/account/login/'), name='dispatch')
-class CarDeleteView(OwnerRequiredMixin, OwnerQuerySetMixin, UserFormKwargsMixin, DeleteView):
+class CarDeleteView(OwnerRequiredMixin, OwnerQuerySetMixin, DeleteView):
     model = Car
     template_name = 'cars/car_delete.html'
     success_url = '/cars/'
