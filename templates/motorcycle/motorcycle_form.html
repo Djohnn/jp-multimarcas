@@ -38,7 +38,9 @@
                 <th><label>Marca:</label></th>
                 <td class="brand-field">
                     {{ form.brand }}
+                    {% if user.is_staff %}
                     <button type="button" class="btn-add-brand" id="btn-add-brand" title="Nova Marca">+</button>
+                    {% endif %}
                     {{ form.brand.errors }}
                 </td>
             </tr>
@@ -91,6 +93,7 @@
         <h2>Adicionar Marca</h2>
         <button class="modal__close" id="btn-close-modal">&times;</button>
     </div>
+    
     <form method="post" action="{% url 'motorcycle_brand_create' %}">
         {% csrf_token %}
         <table>
