@@ -2,8 +2,6 @@ from django.conf import settings
 from google import genai
 
 
-
-
 def get_car_ai_bio(model, brand, year):
     prompt = f"""
     Me mostre uma descrição de venda para o carro {model} {brand} {year} em apenas 250 caracteres.
