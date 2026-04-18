@@ -391,3 +391,180 @@ label {
     outline: none;
     border-color: var(--color-primary);
 }
+
+/* ================================
+   RESPONSIVIDADE EXTRA
+   Adicionar no final do base.css
+================================ */
+
+/* Tablets */
+@media (max-width: 992px) {
+    :root {
+        --container-padding: 20px;
+        --font-size-2xl: 2.5rem;
+        --font-size-xl: 1.75rem;
+        --font-size-lg: 1.25rem;
+    }
+
+    main {
+        padding: var(--space-lg) var(--container-padding);
+    }
+
+    .form-container {
+        max-width: 100%;
+        padding: var(--space-lg);
+        margin: var(--space-md) auto;
+    }
+
+    .card {
+        padding: var(--space-md);
+    }
+}
+
+/* Celulares */
+@media (max-width: 768px) {
+    :root {
+        --container-padding: 16px;
+        --font-size-base: 0.95rem;
+        --font-size-md: 1rem;
+        --font-size-lg: 1.25rem;
+        --font-size-xl: 1.5rem;
+        --font-size-2xl: 2rem;
+        --space-lg: 24px;
+        --space-xl: 40px;
+    }
+
+    html {
+        font-size: 15px;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    main {
+        padding: var(--space-md) var(--container-padding);
+        width: 100%;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        line-height: 1.15;
+        word-break: break-word;
+    }
+
+    p {
+        line-height: 1.6;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 16px;
+        font-size: var(--font-size-sm);
+    }
+
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-actions .btn,
+    .form-actions a {
+        width: 100%;
+    }
+
+    .card {
+        padding: var(--space-md);
+        border-radius: var(--radius-md);
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 100%;
+        padding: var(--space-lg) var(--space-md);
+        margin: var(--space-md) auto;
+        border-radius: var(--radius-md);
+    }
+
+    .form-container h1 {
+        font-size: var(--font-size-md);
+        margin-bottom: var(--space-md);
+        padding-bottom: var(--space-sm);
+    }
+
+    .form-container table tr {
+        margin-bottom: var(--space-sm);
+    }
+
+    input,
+    select,
+    textarea,
+    .form-container table td input,
+    .form-container table td select,
+    .form-container table td textarea {
+        font-size: 16px; /* evita zoom no iPhone */
+        padding: 12px 14px;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+    }
+
+    .pagination__btn {
+        padding: 8px 12px;
+    }
+
+    .pagination__info {
+        width: 100%;
+        text-align: center;
+    }
+
+    .flex {
+        flex-wrap: wrap;
+    }
+}
+
+/* Celulares pequenos */
+@media (max-width: 480px) {
+    :root {
+        --container-padding: 12px;
+        --font-size-2xl: 1.75rem;
+        --font-size-xl: 1.35rem;
+        --font-size-lg: 1.15rem;
+        --space-md: 12px;
+        --space-lg: 20px;
+        --space-xl: 32px;
+    }
+
+    main {
+        padding: var(--space-sm) var(--container-padding);
+    }
+
+    .btn {
+        padding: 11px 14px;
+    }
+
+    .card {
+        padding: 12px;
+    }
+
+    .form-container {
+        padding: var(--space-md);
+    }
+
+    .order-select {
+        width: 100%;
+    }
+}
+
+/* Telas grandes */
+@media (min-width: 1200px) {
+    main {
+        max-width: 1280px;
+    }
+
+    .form-container {
+        max-width: 620px;
+    }
+}
