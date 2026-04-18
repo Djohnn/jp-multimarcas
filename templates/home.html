@@ -10,146 +10,288 @@
 
 {% block content %}
 
-<!-- HERO -->
-<section class="hero">
-    <div class="hero__content">
-        <span class="hero__tag">Bem-vindo à</span>
-        <h1 class="hero__title">JP Multimarcas</h1>
-        <p class="hero__subtitle">Encontre o carro ou moto ideal para você. Qualidade e confiança em cada veículo.</p>
-        <div class="hero__actions">
-            <a href="{% url 'cars_list' %}" class="btn btn-primary">Ver Carros</a>
-            <a href="{% url 'motorcycle_list' %}" class="btn btn-outline">Ver Motos</a>
+<!-- =================================
+     TOPO DA HOME
+================================= -->
+<section class="home-top">
+    <div class="home-top__content">
+        <div class="home-top__hero">
+            <span class="hero__tag">Bem-vindo à</span>
+            <h1 class="hero__title">JP Multimarcas</h1>
+            <p class="hero__subtitle">
+                Encontre o carro ou moto ideal para você. Qualidade e confiança em cada veículo.
+            </p>
+
+            <div class="hero__actions">
+                <a href="{% url 'cars_list' %}" class="btn btn-primary">Ver Carros</a>
+                <a href="{% url 'motorcycle_list' %}" class="btn btn-outline">Ver Motos</a>
+            </div>
+
+            <div class="hero__stats">
+                <div class="hero__stat">
+                    <span class="hero__stat-number">{{ cars_count }}</span>
+                    <span class="hero__stat-label">Carros</span>
+                </div>
+
+                <div class="hero__stat-divider"></div>
+
+                <div class="hero__stat">
+                    <span class="hero__stat-number">{{ motorcycles_count }}</span>
+                    <span class="hero__stat-label">Motos</span>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="hero__stats">
-        <div class="hero__stat">
-            <span class="hero__stat-number">{{ cars_count }}</span>
-            <span class="hero__stat-label">Carros</span>
-        </div>
-        <div class="hero__stat-divider"></div>
-        <div class="hero__stat">
-            <span class="hero__stat-number">{{ motorcycles_count }}</span>
-            <span class="hero__stat-label">Motos</span>
+
+        <div class="home-top__filter">
+            <div class="filter-section__header">
+                <h2>Encontre o Veículo dos Seus Sonhos</h2>
+            </div>
+
+            <form method="GET" action="{% url 'home' %}">
+                <div class="filter-row">
+                    <select name="vehicle_type" class="filter-select">
+                        <option value="">Você quer filtrar o quê?</option>
+                        <option value="car" {% if selected_vehicle_type == 'car' %}selected{% endif %}>Carros</option>
+                        <option value="motorcycle" {% if selected_vehicle_type == 'motorcycle' %}selected{% endif %}>Motos</option>
+                    </select>
+
+                    <select name="brand" class="filter-select">
+                        <option value="">Selecione a Marca</option>
+                        {% for brand in brands %}
+                            <option value="{{ brand.id }}" {% if selected_brand == brand.id|stringformat:'s' %}selected{% endif %}>
+                                {{ brand.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-row">
+                    <input
+                        type="text"
+                        name="model"
+                        placeholder="Digite o Modelo"
+                        class="filter-input"
+                        value="{{ request.GET.model }}"
+                    >
+
+                    <button type="submit" class="btn btn-primary filter-btn">Pesquisar</button>
+                </div>
+
+                <div class="filter-price">
+                    <span class="filter-label">Ou por Faixa de Preço</span>
+
+                    <div class="filter-price__inputs">
+                        <div class="filter-price__field">
+                            <label for="price_min">Preço mínimo</label>
+                            <input
+                                type="number"
+                                name="price_min"
+                                id="price_min"
+                                min="0"
+                                step="1000"
+                                placeholder="Ex: 20000"
+                                value="{{ selected_price_min }}"
+                            >
+                        </div>
+
+                        <div class="filter-price__field">
+                            <label for="price_max">Preço máximo</label>
+                            <input
+                                type="number"
+                                name="price_max"
+                                id="price_max"
+                                min="0"
+                                step="1000"
+                                placeholder="Ex: 25000"
+                                value="{{ selected_price_max }}"
+                            >
+                        </div>
+
+                        <button type="submit" class="btn btn-primary filter-btn">Filtrar</button>
+                    </div>
+                </div>
+
+                {% if selected_vehicle_type == 'car' %}
+                <div class="filter-body">
+                    <span class="filter-label">Ou por Carroceria</span>
+                    <div class="filter-body__types">
+                        {% for value, label in body_types %}
+                        <button
+                            type="submit"
+                            name="body_type"
+                            value="{{ value }}"
+                            class="body-type-btn {% if selected_body_type == value %}body-type-btn--active{% endif %}">
+                            {{ label }}
+                        </button>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </form>
         </div>
     </div>
 </section>
 
-<!-- FILTRO -->
-<section class="filter-section">
-    <div class="filter-section__header">
-        <h2>Encontre o Veículo dos Seus Sonhos</h2>
-    </div>
-
-    <form method="GET" action="{% url 'home' %}">
-        <div class="filter-row">
-            <select name="brand" class="filter-select">
-                <option value="">Selecione a Marca</option>
-                {% for brand in brands %}
-                    <option value="{{ brand.id }}" {% if selected_brand == brand.id|stringformat:'s' %}selected{% endif %}>
-                        {{ brand.name }}
-                    </option>
-                {% endfor %}
-            </select>
-            <input type="text" name="model" placeholder="Selecione o Modelo" class="filter-input" value="{{ request.GET.model }}">
-            <button type="submit" class="btn btn-primary filter-btn">Pesquisar</button>
-        </div>
-
-        <div class="filter-price">
-            <span class="filter-label">Ou por Faixa de Preço</span>
-            <div class="filter-price__slider">
-                <input type="range" name="price_max" min="0" max="500000" step="5000"
-                    value="{{ selected_price_max }}" class="price-slider" id="price-slider">
-                <span class="price-value" id="price-value">R$ {{ selected_price_max }}</span>
-                <button type="submit" class="btn btn-primary">Filtrar</button>
-            </div>
-        </div>
-
-        <div class="filter-body">
-            <span class="filter-label">Ou por Carroceria</span>
-            <div class="filter-body__types">
-                {% for value, label in body_types %}
-                <button type="submit" name="body_type" value="{{ value }}"
-                    class="body-type-btn {% if selected_body_type == value %}body-type-btn--active{% endif %}">
-                    {{ label }}
-                </button>
-                {% endfor %}
-            </div>
-        </div>
-    </form>
-
-    {% if request.GET %}
+<!-- =================================
+     RESULTADOS DO FILTRO
+================================= -->
+{% if request.GET %}
+<section class="home-section">
     <div class="filter-results">
         <div class="home-section__header">
             <h2>Resultados</h2>
             <a href="{% url 'home' %}" class="home-section__link">Limpar filtros ×</a>
         </div>
-        {% if filtered_cars %}
-        <div class="car-grid">
-            {% for car in filtered_cars %}
-            <a href="{% url 'car_detail' car.pk %}">
-                <div class="car-card">
-                    {% if car.photo %}
-                        <img src="{{ car.photo.url }}" alt="{{ car.model }} - {{ car.brand }}">
-                    {% else %}
-                        <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
-                    {% endif %}
-                    <div class="car-card__body">
-                        <span class="car-card__year">{{ car.factory_year }}/{{ car.model_year }}</span>
-                        <h2 class="car-card__title">{{ car.brand }} {{ car.model }}</h2>
-                        {% if car.version %}<span class="car-card__version">{{ car.version }}</span>{% endif %}
-                        <span class="car-card__price">{{ car.sale_price|moeda_br }}</span>
+
+        {% if not selected_vehicle_type %}
+            <p class="no-results">Selecione se deseja filtrar carros ou motos.</p>
+        {% endif %}
+
+        {% if selected_vehicle_type == 'car' %}
+            {% if filtered_cars %}
+            <div class="car-grid">
+                {% for car in filtered_cars %}
+                <a href="{% url 'car_detail' car.pk %}">
+                    <div class="car-card">
+                        {% if car.photo %}
+                            <img src="{{ car.photo.url }}" alt="{{ car.model }} - {{ car.brand }}">
+                        {% else %}
+                            <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
+                        {% endif %}
+
+                        <div class="car-card__body">
+                            <span class="car-card__year">{{ car.factory_year }}/{{ car.model_year }}</span>
+                            <h2 class="car-card__title">{{ car.brand }} {{ car.model }}</h2>
+                            {% if car.version %}
+                                <span class="car-card__version">{{ car.version }}</span>
+                            {% endif %}
+                            <span class="car-card__price">{{ car.sale_price|moeda_br }}</span>
+                        </div>
+
+                        <div class="car-card__tags">
+                            {% if car.transmission %}
+                            <span class="car-card__tag">
+                                <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="5" cy="5" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="19" cy="5" r="2"/>
+                                    <circle cx="5" cy="19" r="2"/><circle cx="12" cy="19" r="2"/>
+                                    <line x1="5" y1="7" x2="5" y2="17"/><line x1="12" y1="7" x2="12" y2="12"/>
+                                    <line x1="12" y1="12" x2="5" y2="17"/><line x1="12" y1="12" x2="19" y2="7"/>
+                                </svg>
+                                {{ car.get_transmission_display }}
+                            </span>
+                            {% endif %}
+
+                            {% if car.mileage %}
+                            <span class="car-card__tag">
+                                <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="12" cy="12" r="9"/>
+                                    <polyline points="12 7 12 12 15 15"/>
+                                    <line x1="3.6" y1="9" x2="5.4" y2="9.5"/>
+                                    <line x1="20.4" y1="9" x2="18.6" y2="9.5"/>
+                                </svg>
+                                {{ car.mileage }} km
+                            </span>
+                            {% endif %}
+
+                            {% if car.fuel %}
+                            <span class="car-card__tag">
+                                <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M3 22V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/>
+                                    <path d="M3 22h12"/>
+                                    <path d="M15 8h2a2 2 0 0 1 2 2v5a2 2 0 0 0 2 2v0a2 2 0 0 0 2-2V9l-3-3"/>
+                                    <line x1="7" y1="4" x2="7" y2="8"/>
+                                </svg>
+                                {{ car.get_fuel_display }}
+                            </span>
+                            {% endif %}
+                        </div>
                     </div>
-                    <div class="car-card__tags">
-                        {% if car.transmission %}
-                        <span class="car-card__tag">
-                            <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <circle cx="5" cy="5" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="19" cy="5" r="2"/>
-                                <circle cx="5" cy="19" r="2"/><circle cx="12" cy="19" r="2"/>
-                                <line x1="5" y1="7" x2="5" y2="17"/><line x1="12" y1="7" x2="12" y2="12"/>
-                                <line x1="12" y1="12" x2="5" y2="17"/><line x1="12" y1="12" x2="19" y2="7"/>
-                            </svg>
-                            {{ car.get_transmission_display }}
-                        </span>
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="no-results">Nenhum carro encontrado com esses filtros.</p>
+            {% endif %}
+        {% endif %}
+
+        {% if selected_vehicle_type == 'motorcycle' %}
+            {% if filtered_motorcycles %}
+            <div class="car-grid">
+                {% for moto in filtered_motorcycles %}
+                <a href="{% url 'motorcycle_detail' moto.pk %}">
+                    <div class="car-card">
+                        {% if moto.photo %}
+                            <img src="{{ moto.photo.url }}" alt="{{ moto.model }} - {{ moto.brand }}">
+                        {% else %}
+                            <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
                         {% endif %}
-                        {% if car.mileage %}
-                        <span class="car-card__tag">
-                            <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <circle cx="12" cy="12" r="9"/>
-                                <polyline points="12 7 12 12 15 15"/>
-                            </svg>
-                            {{ car.mileage }} km
-                        </span>
-                        {% endif %}
-                        {% if car.fuel %}
-                        <span class="car-card__tag">
-                            <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M3 22V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/>
-                                <path d="M3 22h12"/>
-                                <path d="M15 8h2a2 2 0 0 1 2 2v5a2 2 0 0 0 2 2v0a2 2 0 0 0 2-2V9l-3-3"/>
-                                <line x1="7" y1="4" x2="7" y2="8"/>
-                            </svg>
-                            {{ car.get_fuel_display }}
-                        </span>
-                        {% endif %}
+
+                        <div class="car-card__body">
+                            <span class="car-card__year">{{ moto.factory_year }}/{{ moto.model_year }}</span>
+                            <h2 class="car-card__title">{{ moto.brand }} {{ moto.model }}</h2>
+                            {% if moto.version %}
+                                <span class="car-card__version">{{ moto.version }}</span>
+                            {% endif %}
+                            <span class="car-card__price">{{ moto.sale_price|moeda_br }}</span>
+                        </div>
+
+                        <div class="car-card__tags">
+                            {% if moto.transmission %}
+                            <span class="car-card__tag">
+                                <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="5" cy="5" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="19" cy="5" r="2"/>
+                                    <circle cx="5" cy="19" r="2"/><circle cx="12" cy="19" r="2"/>
+                                    <line x1="5" y1="7" x2="5" y2="17"/><line x1="12" y1="7" x2="12" y2="12"/>
+                                    <line x1="12" y1="12" x2="5" y2="17"/><line x1="12" y1="12" x2="19" y2="7"/>
+                                </svg>
+                                {{ moto.get_transmission_display }}
+                            </span>
+                            {% endif %}
+
+                            {% if moto.engine_cc %}
+                            <span class="car-card__tag">
+                                <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="12" cy="12" r="9"/>
+                                    <polyline points="12 7 12 12 15 15"/>
+                                </svg>
+                                {{ moto.engine_cc }}cc
+                            </span>
+                            {% endif %}
+
+                            {% if moto.fuel %}
+                            <span class="car-card__tag">
+                                <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M3 22V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/>
+                                    <path d="M3 22h12"/>
+                                    <path d="M15 8h2a2 2 0 0 1 2 2v5a2 2 0 0 0 2 2v0a2 2 0 0 0 2-2V9l-3-3"/>
+                                    <line x1="7" y1="4" x2="7" y2="8"/>
+                                </svg>
+                                {{ moto.get_fuel_display }}
+                            </span>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-            </a>
-            {% endfor %}
-        </div>
-        {% else %}
-        <p class="no-results">Nenhum veículo encontrado com esses filtros.</p>
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="no-results">Nenhuma moto encontrada com esses filtros.</p>
+            {% endif %}
         {% endif %}
     </div>
-    {% endif %}
 </section>
+{% endif %}
 
-<!-- ÚLTIMOS CARROS -->
+<!-- =================================
+     ÚLTIMOS CARROS
+================================= -->
 {% if latest_cars %}
 <section class="home-section">
     <div class="home-section__header">
         <h2>Últimos Carros</h2>
         <a href="{% url 'cars_list' %}" class="home-section__link">Ver todos →</a>
     </div>
+
     <div class="car-grid">
         {% for car in latest_cars %}
         <a href="{% url 'car_detail' car.pk %}">
@@ -159,12 +301,16 @@
                 {% else %}
                     <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
                 {% endif %}
+
                 <div class="car-card__body">
                     <span class="car-card__year">{{ car.factory_year }}/{{ car.model_year }}</span>
                     <h2 class="car-card__title">{{ car.brand }} {{ car.model }}</h2>
-                    {% if car.version %}<span class="car-card__version">{{ car.version }}</span>{% endif %}
+                    {% if car.version %}
+                        <span class="car-card__version">{{ car.version }}</span>
+                    {% endif %}
                     <span class="car-card__price">{{ car.sale_price|moeda_br }}</span>
                 </div>
+
                 <div class="car-card__tags">
                     {% if car.transmission %}
                     <span class="car-card__tag">
@@ -177,6 +323,7 @@
                         {{ car.get_transmission_display }}
                     </span>
                     {% endif %}
+
                     {% if car.mileage %}
                     <span class="car-card__tag">
                         <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -186,6 +333,7 @@
                         {{ car.mileage }} km
                     </span>
                     {% endif %}
+
                     {% if car.fuel %}
                     <span class="car-card__tag">
                         <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -205,13 +353,16 @@
 </section>
 {% endif %}
 
-<!-- ÚLTIMAS MOTOS -->
+<!-- =================================
+     ÚLTIMAS MOTOS
+================================= -->
 {% if latest_motorcycles %}
 <section class="home-section">
     <div class="home-section__header">
         <h2>Últimas Motos</h2>
         <a href="{% url 'motorcycle_list' %}" class="home-section__link">Ver todas →</a>
     </div>
+
     <div class="car-grid">
         {% for moto in latest_motorcycles %}
         <a href="{% url 'motorcycle_detail' moto.pk %}">
@@ -221,12 +372,16 @@
                 {% else %}
                     <img src="https://placehold.co/400x200?text=Sem+Imagem" alt="Sem imagem">
                 {% endif %}
+
                 <div class="car-card__body">
                     <span class="car-card__year">{{ moto.factory_year }}/{{ moto.model_year }}</span>
                     <h2 class="car-card__title">{{ moto.brand }} {{ moto.model }}</h2>
-                    {% if moto.version %}<span class="car-card__version">{{ moto.version }}</span>{% endif %}
+                    {% if moto.version %}
+                        <span class="car-card__version">{{ moto.version }}</span>
+                    {% endif %}
                     <span class="car-card__price">{{ moto.sale_price|moeda_br }}</span>
                 </div>
+
                 <div class="car-card__tags">
                     {% if moto.transmission %}
                     <span class="car-card__tag">
@@ -239,6 +394,7 @@
                         {{ moto.get_transmission_display }}
                     </span>
                     {% endif %}
+
                     {% if moto.engine_cc %}
                     <span class="car-card__tag">
                         <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -248,6 +404,7 @@
                         {{ moto.engine_cc }}cc
                     </span>
                     {% endif %}
+
                     {% if moto.fuel %}
                     <span class="car-card__tag">
                         <svg class="car-card__tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
