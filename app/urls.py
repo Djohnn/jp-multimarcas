@@ -13,5 +13,6 @@ urlpatterns = [
     path('account/', include('apps.account.urls')),
     path('motorcycle/', include('apps.motorcycle.urls')),
     path('leads/', include('apps.leads.urls')),
+    path('inventory/', include('apps.inventory.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
