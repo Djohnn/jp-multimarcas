@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+{% load static %}
+{% load moeda %}
+
+{% block title %}Inventário | JP Multimarcas{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/inventory/inventory.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<section class="inventory-hero">
+    <div class="inventory-hero__content">
+        <span class="inventory-hero__tag">Gerenciamento</span>
+        <h1 class="inventory-hero__title">Painel de Inventário</h1>
+        <p class="inventory-hero__subtitle">
+            Acompanhe a quantidade, o valor total do estoque e a evolução do inventário de carros e motos.
+        </p>
+    </div>
+
+    <div class="inventory-hero__summary">
+        <div class="inventory-summary-card">
+            <span class="inventory-summary-card__label">Total de veículos</span>
+            <strong class="inventory-summary-card__value">{{ total_vehicles_count }}</strong>
+        </div>
+
+        <div class="inventory-summary-card">
+            <span class="inventory-summary-card__label">Valor total em estoque</span>
+            <strong class="inventory-summary-card__value">{{ total_inventory_value|moeda_br }}</strong>
+        </div>
+    </div>
+</section>
+
+<section class="inventory-section">
+    <div class="inventory-section__header">
+        <h2>Resumo Atual</h2>
+    </div>
+
+    <div class="inventory-metrics-grid">
+        <article class="inventory-metric-card">
+            <span class="inventory-metric-card__label">Carros em estoque</span>
+            <strong class="inventory-metric-card__value">{{ current_cars_count }}</strong>
+            <span class="inventory-metric-card__meta">Quantidade atual de carros</span>
+        </article>
+
+        <article class="inventory-metric-card">
+            <span class="inventory-metric-card__label">Valor total dos carros</span>
+            <strong class="inventory-metric-card__value">{{ current_cars_value|moeda_br }}</strong>
+            <span class="inventory-metric-card__meta">Somatório dos carros disponíveis</span>
+        </article>
+
+        <article class="inventory-metric-card">
+            <span class="inventory-metric-card__label">Motos em estoque</span>
+            <strong class="inventory-metric-card__value">{{ current_motorcycles_count }}</strong>
+            <span class="inventory-metric-card__meta">Quantidade atual de motos</span>
+        </article>
+
+        <article class="inventory-metric-card">
+            <span class="inventory-metric-card__label">Valor total das motos</span>
+            <strong class="inventory-metric-card__value">{{ current_motorcycles_value|moeda_br }}</strong>
+            <span class="inventory-metric-card__meta">Somatório das motos disponíveis</span>
+        </article>
+    </div>
+</section>
+
+<section class="inventory-section">
+    <div class="inventory-section__header">
+        <h2>Filtros</h2>
+    </div>
+
+    <form method="GET" class="inventory-filter">
+        <div class="inventory-filter__grid">
+            <div class="inventory-filter__field">
+                <label for="type">Tipo</label>
+                <select name="type" id="type">
+                    <option value="all" {% if selected_type == 'all' %}selected{% endif %}>Todos</option>
+                    <option value="car" {% if selected_type == 'car' %}selected{% endif %}>Carros</option>
+                    <option value="motorcycle" {% if selected_type == 'motorcycle' %}selected{% endif %}>Motos</option>
+                </select>
+            </div>
+
+            <div class="inventory-filter__field">
+                <label for="date_start">Data inicial</label>
+                <input type="date" name="date_start" id="date_start" value="{{ selected_date_start }}">
+            </div>
+
+            <div class="inventory-filter__field">
+                <label for="date_end">Data final</label>
+                <input type="date" name="date_end" id="date_end" value="{{ selected_date_end }}">
+            </div>
+
+            <div class="inventory-filter__actions">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <a href="{% url 'inventory_dashboard' %}" class="btn btn-outline">Limpar</a>
+            </div>
+        </div>
+    </form>
+</section>
+
+<section class="inventory-section">
+    <div class="inventory-section__header">
+        <h2>Evolução do Estoque</h2>
+    </div>
+
+    <div class="inventory-chart-card">
+        <canvas id="inventoryChart"></canvas>
+    </div>
+</section>
+
+<section class="inventory-section">
+    <div class="inventory-section__header">
+        <h2>Histórico</h2>
+    </div>
+
+    <div class="inventory-panel">
+        {% if page_obj %}
+        <div class="inventory-table-wrapper">
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Tipo</th>
+                        <th>Quantidade</th>
+                        <th>Valor total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in page_obj %}
+                    <tr>
+                        <td>{{ item.created_at|date:"d/m/Y" }}</td>
+                        <td>{{ item.vehicle_type }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.total_value|moeda_br }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="inventory-empty">Nenhum registro encontrado.</p>
+        {% endif %}
+    </div>
+
+    {% if is_paginated %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a class="pagination__btn" href="?type={{ selected_type }}&date_start={{ selected_date_start }}&date_end={{ selected_date_end }}&page={{ page_obj.previous_page_number }}">
+                ← Anterior
+            </a>
+        {% endif %}
+
+        <span class="pagination__info">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a class="pagination__btn" href="?type={{ selected_type }}&date_start={{ selected_date_start }}&date_end={{ selected_date_end }}&page={{ page_obj.next_page_number }}">
+                Próxima →
+            </a>
+        {% endif %}
+    </div>
+    {% endif %}
+</section>
+
+<script>
+    const chartLabels = {{ chart_labels }};
+    const chartCarValues = {{ chart_car_values }};
+    const chartMotorcycleValues = {{ chart_motorcycle_values }};
+
+    const ctx = document.getElementById('inventoryChart');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: chartLabels,
+            datasets: [
+                {
+                    label: 'Carros',
+                    data: chartCarValues,
+                    borderColor: '#b91c1c',
+                    backgroundColor: 'rgba(185, 28, 28, 0.12)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.35
+                },
+                {
+                    label: 'Motos',
+                    data: chartMotorcycleValues,
+                    borderColor: '#111827',
+                    backgroundColor: 'rgba(17, 24, 39, 0.10)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.35
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#374151'
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#6b7280'
+                    },
+                    grid: {
+                        color: 'rgba(107, 114, 128, 0.10)'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#6b7280'
+                    },
+                    grid: {
+                        color: 'rgba(107, 114, 128, 0.10)'
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock %}
