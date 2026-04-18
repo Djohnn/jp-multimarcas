@@ -15,8 +15,20 @@
     margin: 0 auto;
 }
 
+.search-bar input,
+.search-bar select,
+.search-bar button {
+    min-height: 44px;
+}
+
 .search-bar input {
-    max-width: 400px;
+    flex: 1;
+    min-width: 0;
+}
+
+.search-bar .order-select {
+    flex: 1;
+    min-width: 0;
 }
 
 /* ================================
@@ -24,10 +36,18 @@
 ================================ */
 .car-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--space-md);
     padding: var(--space-lg) 0;
-    align-items: start;
+    align-items: stretch;
+}
+
+.car-grid > a {
+    display: flex;
+    height: 100%;
+    min-width: 0;
+    text-decoration: none;
+    color: inherit;
 }
 
 /* ================================
@@ -43,6 +63,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    width: 100%;
     min-width: 0;
 }
 
@@ -53,7 +74,7 @@
 
 .car-card img {
     width: 100%;
-    height: 200px;
+    height: 220px;
     object-fit: cover;
     display: block;
     flex-shrink: 0;
@@ -69,7 +90,7 @@
     gap: var(--space-xs);
     flex: 1;
     border-bottom: 1px solid var(--color-border);
-    min-height: 120px;
+    min-height: 170px;
 }
 
 .car-card__year {
@@ -84,6 +105,9 @@
     color: var(--color-text);
     font-weight: 700;
     line-height: 1.2;
+    min-height: calc(3 * 1.2em);
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .car-card__version {
@@ -107,6 +131,7 @@
     display: flex;
     border-top: 1px solid var(--color-border);
     flex-shrink: 0;
+    min-height: 70px;
 }
 
 .car-card__tag {
@@ -114,13 +139,17 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2px;
+    gap: 4px;
     font-size: var(--font-size-xs);
     color: var(--color-text-muted);
-    padding: var(--space-sm) 0;
+    padding: var(--space-sm) 6px;
     flex: 1;
+    min-width: 0;
     border-right: 1px solid var(--color-border);
     text-align: center;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    line-height: 1.2;
 }
 
 .car-card__tag:last-child {
@@ -146,11 +175,88 @@
 }
 
 /* ================================
+   PAGINAÇÃO
+================================ */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    padding: var(--space-lg) 0;
+}
+
+.pagination__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.pagination__btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.pagination__info {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+}
+
+/* ================================
    RESPONSIVO
 ================================ */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .car-grid {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .car-card img {
+        height: 210px;
+    }
+
+    .car-card__body {
+        min-height: 160px;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-bar form {
+        flex-direction: column;
+    }
+
+    .car-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: var(--space-sm);
+    }
+
+    .car-card img {
+        height: 190px;
+    }
+
+    .car-card__body {
+        min-height: 150px;
+    }
+
+    .car-card__tags {
+        min-height: 68px;
+    }
+}
+
+@media (max-width: 520px) {
+    .car-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .car-card img {
+        height: 220px;
     }
 }
