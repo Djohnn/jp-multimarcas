@@ -35,9 +35,14 @@ class MotorcycleModelForm(ModelForm):
             'bio',
         ]
 
+        labels = {
+            'factory_year': 'Ano de Fabricação',
+            'sale_price': 'Preço de Venda',
+        }
+
     def clean_factory_year(self):
         factory_year = self.cleaned_data.get('factory_year')
-        if factory_year and factory_year < 1980:
+        if factory_year and factory_year < 1990:
             self.add_error('factory_year', 'Não é possível cadastrar motos anteriores a 1980')
         return factory_year
 

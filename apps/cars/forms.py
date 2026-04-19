@@ -31,6 +31,10 @@ class CarModelForm(forms.ModelForm):
             'photo',
             'bio',
         ]
+        labels = {
+            'factory_year': 'Ano de Fabricação',
+            'sale_price': 'Preço de Venda',
+        }
 
     def clean_sale_price(self):
         sale_price = self.cleaned_data.get('sale_price')
