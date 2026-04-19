@@ -14,7 +14,7 @@ class MotorcycleListView(ListView):
     model = Motorcycle
     template_name = 'motorcycle/motorcycle_list.html'
     context_object_name = 'motorcycles'
-    paginate_by = 12
+    paginate_by = 6
 
     def get_queryset(self):
         motorcycles = super().get_queryset()
