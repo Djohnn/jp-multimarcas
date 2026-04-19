@@ -8,25 +8,26 @@
 {% endblock %}
 
 {% block content %}
-<div class="form-container">
-    <h1>Cadastrar Moto</h1>
 
-    {% if form.errors %}
+{# exibir erros no form #}
+{% if form.errors %}
     <div class="alert-danger">
         <strong>Atenção:</strong> Por favor, corrija os erros abaixo:
-        
-        {# 1. Erros globais do formulário #}
+
         {{ form.non_field_errors }}
 
         <ul class="errorlist">
             {% for field in form %}
-                {% if field.errors %}
-                    <li><strong>{{ field.label }}:</strong> {{ field.errors|striptags }}</li>
-                {% endif %}
+                {% for error in field.errors %}
+                    <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                {% endfor %}
             {% endfor %}
         </ul>
     </div>
-    {% endif %}
+{% endif %}
+
+<div class="form-container">
+    <h1>Cadastrar Moto</h1>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}

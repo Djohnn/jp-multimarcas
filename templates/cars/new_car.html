@@ -8,6 +8,25 @@
 {% endblock %}
 
 {% block content %}
+
+{# exibir erros no form #}
+{% if form.errors %}
+    <div class="alert-danger">
+        <strong>Atenção:</strong> Por favor, corrija os erros abaixo:
+
+        {{ form.non_field_errors }}
+
+        <ul class="errorlist">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+
 <div class="form-container">
     <h1>Cadastrar Carro</h1>
     <form method="post" enctype="multipart/form-data">
